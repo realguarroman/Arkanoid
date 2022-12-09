@@ -23,6 +23,9 @@
 #endif
 
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+
 
 //----constantes y tipos-----
 #if OS_MSWINDOWS
@@ -33,7 +36,7 @@ using HRT_Time = System.Int64;
 #elif OS_ANDROID
 #endif
 
-enum BolaActions { Idle, Start, Sleep, Watch, Run, Walk, Turn, ChangeColor, ChangeDirectionX, ChangeDirectionY, ChangeDirectionXY }
+enum BolaActions { Idle, Start, Sleep, Watch, Run, Walk, Turn, ChangeColor}
 
 
 
@@ -48,6 +51,9 @@ public class BolaLiveState
 [RequireComponent(typeof(RTDESKEntity))]
 public class BolaReceiveMessage : MonoBehaviour
 {
+
+
+
     public enum BolaStates
     {
         Moving,
@@ -56,6 +62,8 @@ public class BolaReceiveMessage : MonoBehaviour
     public int sp;
     //Initial Bola state
     BolaStates state = BolaStates.Moving;
+
+    List<MessageManager> ObjectsToInform = new List<MessageManager>();
 
     HRT_Time userTime;
     HRT_Time oneSecond, halfSecond, tenMillis, Millis33;
@@ -168,6 +176,11 @@ public class BolaReceiveMessage : MonoBehaviour
                 }
                 break;
             case (int)UserMsgTypes.Rotation:
+               
+                p = (Transform)Msg;
+                speed.x = speed.x * p.V3.x;
+                speed.y = speed.y * p.V3.y;
+
                 break;
             case (int)UserMsgTypes.Scale:
                 break;
@@ -230,20 +243,23 @@ public class BolaReceiveMessage : MonoBehaviour
                             TMsg.V3 = new Vector3(0.0005f, 0.0002f, 0.001f);//speed;
                             Engine.SendMsg(TMsg, gameObject, ReceiveMessage, tenMillis);
                             break;
-                        case (int)BolaActions.ChangeDirectionY:
+                            // case (int)BolaActions.ChangeDirectionY:
                             //  Debug.Log("Mensaje recibido");
-                            speed.y = -speed.y;
+                            //  speed.y = -speed.y;
                             //speed = Quaternion.Euler(0, 0, 20) * speed;
-                            break;
-                        case (int)BolaActions.ChangeDirectionX:
+                            //    break;
+                            //case (int)BolaActions.ChangeDirectionX:
                             //  Debug.Log("Mensaje recibido");
-                            speed.x = -speed.x;
-                            break;
-                        case (int)BolaActions.ChangeDirectionXY:
+                            //    speed.x = -speed.x;
+                            //    break;
+                            //case (int)BolaActions.ChangeDirectionXY:
                             //  Debug.Log("Mensaje recibido");
-                            speed.x = -speed.x;
-                            speed.y = -speed.y;
-                            break;
+                            //    speed.x = -speed.x;
+                            //    speed.y = -speed.y;
+                            //    break;
+
+
+                            // esto nos va a hacer falta para rotar -> Quaternion.Euler(0, 0, 20) * speed;
                     }
                     Engine.PushMsg(Msg);
                 }

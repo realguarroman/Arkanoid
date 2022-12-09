@@ -151,9 +151,17 @@ public class LadrilloReceiveMessage : MonoBehaviour
                                 if ((bcx<(lcx+lsx)) && (bcx>(lcx-lsx)))
                                 {
                                     GameObject b = GameObject.Find("Bola");
-                                    Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                    msg_to_bola.action = (int)BolaActions.ChangeDirectionY; 
-                                    Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
+                                   // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                                   // msg_to_bola.action = (int)BolaActions.ChangeDirectionY; 
+                                   // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
+
+
+
+                                    Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
+                                    TMsg.V3 = new Vector3(1f,-1f, 1f);
+                                    Engine.SendMsg(TMsg, gameObject, b, tenMillis);
+
+
                                     Debug.Log("mensaje enviado Y");
                                 }
                                     else
@@ -161,27 +169,27 @@ public class LadrilloReceiveMessage : MonoBehaviour
                                     if ((bcy < (lcy + lsy)) && (bcy > (lcy - lsy)))
                                     {
                                         GameObject b = GameObject.Find("Bola");
-                                        Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                        msg_to_bola.action = (int)BolaActions.ChangeDirectionX;
-                                        Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
+                                       // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                                       // msg_to_bola.action = (int)BolaActions.ChangeDirectionX;
+                                       // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
                                         Debug.Log("mensaje enviado X");
+
+                                        Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
+                                        TMsg.V3 = new Vector3(-1f, 1f, 1f);
+                                        Engine.SendMsg(TMsg, gameObject, b, tenMillis);
                                     } else
                                     {
-
                                         GameObject b = GameObject.Find("Bola");
-                                        Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                        msg_to_bola.action = (int)BolaActions.ChangeDirectionXY;
-                                        Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
+                                       // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                                       // msg_to_bola.action = (int)BolaActions.ChangeDirectionXY;
+                                       // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
                                         Debug.Log("mensaje enviado XY");
 
-
+                                        Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
+                                        TMsg.V3 = new Vector3(-1f, -1f, 1f);
+                                        Engine.SendMsg(TMsg, gameObject, b, tenMillis);
                                     }
-
-
                                 }
-                               
-
-                                //Destroy(gameObject); //destruimos el ladrillo
                                 Action ActMsg;
                                 //Get a new message to activate a new action in the object
                                 ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
