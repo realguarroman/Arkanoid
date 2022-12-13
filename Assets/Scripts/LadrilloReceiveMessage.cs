@@ -1,28 +1,8 @@
-/**
- * LadrilloReceiveMessage: Basic Message Management for the Ladrillo game object
- *
- * Copyright(C) 2022
- *
- * Prefix: CRM_
-
- * @Author: Dr. Ram�n Moll� Vay�
- * @Date:	11/2022
- * @Version: 2.0
- *
- * Update:
- * Date:	
- * Version: 
- * Changes:
- *
- */
-
 #if !OS_OPERATINGSYSTEM
 #define OS_OPERATINGSYSTEM
 #define OS_MSWINDOWS
 #define OS_64BITS
 #endif
-
-using UnityEngine;
 
 //----constantes y tipos-----
 #if OS_MSWINDOWS
@@ -33,33 +13,21 @@ using HRT_Time = System.Int64;
 #elif OS_ANDROID
 #endif
 
-enum LadrilloActions {CheckCollision, ChangeColor, Destroy }
-
-
+using UnityEngine;
 
 // LadrilloReceiveMessage requires the GameObject to have a RTDESKEntity component
 [RequireComponent(typeof(RTDESKEntity))]
 public class LadrilloReceiveMessage : MonoBehaviour
 {
-    public enum LadrilloStates{
-        Destroyed,
-        Steady
-    }
-
-    //Initial Ladrillo state
-    LadrilloStates state = LadrilloStates.Steady;
-
-    HRT_Time userTime;
-    HRT_Time oneSecond, halfSecond, tenMillis, oneMilli;
-
-    [SerializeField]
-     RTDESKEngine       Engine;   //Shortcut
-
-   
-
-    Renderer renderComponent;
+    public enum LadrilloActions { CheckCollision, ChangeColor, Destroy };
+    public enum LadrilloStates { Active, Destroyed };
 
     string myName;
+    LadrilloStates state;
+    MessageManager BolaManagerMailBox;
+
+    RTDESKEngine Engine;
+    HRT_Time halfSecond, fiveMillis;
 
     private void Awake()
     {
@@ -70,167 +38,105 @@ public class LadrilloReceiveMessage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
-        Action          ActMsg;
-        GameObject      engine = GameObject.Find(RTDESKEngine.Name);
+        myName = gameObject.name;
+        state = LadrilloStates.Active;
+        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola");
 
+        GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
-        RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
 
+        fiveMillis = Engine.ms2Ticks(5);
+        halfSecond = Engine.ms2Ticks(500);
+
+        //RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
         //Register keys that we want to be signaled in case the user press them
         // IM.RegisterKeyCode(ReceiveMessage, KeyCode.UpArrow);
         // IM.RegisterKeyCode(ReceiveMessage, KeyCode.DownArrow);
         // IM.RegisterKeyCode(ReceiveMessage, KeyCode.LeftArrow);
         // IM.RegisterKeyCode(ReceiveMessage, KeyCode.RightArrow);
 
-      
-        //Debug.Log("Solicitud de Acci�n por cubo");
         //Get a new message to activate a new action in the object
-        ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+        Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
         //Update the content of the message sending and activation 
         ActMsg.action = (int)LadrilloActions.ChangeColor;
-
-        myName = gameObject.name;
-
-        renderComponent = GetComponent<Renderer>();
-
-        halfSecond = Engine.ms2Ticks(500);
-        tenMillis  = Engine.ms2Ticks(10);
-        oneMilli = Engine.ms2Ticks(1);
-        oneSecond  = Engine.ms2Ticks(1000);
-
         Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, halfSecond);
-
 
         //Get a new message to activate a new action in the object
         ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
         //Update the content of the message sending and activation 
         ActMsg.action = (int)LadrilloActions.CheckCollision;
-        Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, tenMillis);
+        Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
 
+        ObjectMsg ObjMsg = (ObjectMsg)Engine.PopMsg((int)UserMsgTypes.Object);
+        ObjMsg.o = gameObject;
+        Engine.SendMsg(ObjMsg, gameObject, BolaManagerMailBox, fiveMillis);
     }
 
     void ReceiveMessage(MsgContent Msg)
     {
-        //Transform p;
-
         switch (Msg.Type)
         {
-           
-          
-           
-            case (int)UserMsgTypes.Action:
-                Action a;
-                a = (Action)Msg;
-                //Sending automessage
-                if (myName == Msg.Sender.name)
-                    switch ((int)a.action)
-                    {
- 
-                        case (int)LadrilloActions.CheckCollision:
+            case (int)UserMsgTypes.Position:
+                Engine.PushMsg(Msg);
 
-                            //Vemos si la bola ha colisionado con este ladrillo
-                            //en caso afirmativo lo destruimos
-                         
-           
-                            float lsy = transform.localScale.y / 2;
-                            float bsy = GameObject.Find("Bola").transform.localScale.y / 2;
-                            float lcy = transform.position.y;
-                            float bcy = GameObject.Find("Bola").transform.position.y;
+                if (state == LadrilloStates.Active) {
+                    Transform p = (Transform)Msg;
+                    Vector3 pos = p.V3;
 
-                            float lsx = transform.localScale.x / 2;
-                            float bsx = GameObject.Find("Bola").transform.localScale.x / 2;
-                            float lcx = transform.position.x;
-                            float bcx = GameObject.Find("Bola").transform.position.x;
-                            bool vert = (Mathf.Abs(lcy - bcy) < (lsy + bsy));
-                            bool hor = (Mathf.Abs(lcx - bcx) < (lsx + bsx));
-                            if (vert && hor)
-                            {
-                                Engine.PushMsg(Msg); //descartamos el mensaje
+                    //Vemos si la bola ha colisionado con este ladrillo
+                    //en caso afirmativo lo destruimos
 
-                                if ((bcx<(lcx+lsx)) && (bcx>(lcx-lsx)))
-                                {
-                                    GameObject b = GameObject.Find("Bola");
-                                   // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                   // msg_to_bola.action = (int)BolaActions.ChangeDirectionY; 
-                                   // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
+                    float RectWidth = transform.localScale.x;
+                    float RectHeight = transform.localScale.y;
+                    float RectX = transform.position.x - (RectWidth / 2f);
+                    float RectY = transform.position.y - (RectHeight / 2f);
 
+                    float CircleRadius = 1f / 2f;
+                    float CircleX = pos.x;
+                    float CircleY = pos.y;
 
+                    float NearestX = Mathf.Max(RectX, Mathf.Min(CircleX, RectX + RectWidth));
+                    float NearestY = Mathf.Max(RectY, Mathf.Min(CircleY, RectY + RectHeight));
 
-                                    Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
-                                    TMsg.V3 = new Vector3(1f,-1f, 1f);
-                                    Engine.SendMsg(TMsg, gameObject, b, tenMillis);
+                    float DeltaX = CircleX - NearestX;
+                    float DeltaY = CircleY - NearestY;
+                    bool intersection = (DeltaX * DeltaX + DeltaY * DeltaY) < (CircleRadius * CircleRadius);
 
+                    if (intersection) {
+                        Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
 
-                                    Debug.Log("mensaje enviado Y");
-                                }
-                                    else
-                                {
-                                    if ((bcy < (lcy + lsy)) && (bcy > (lcy - lsy)))
-                                    {
-                                        GameObject b = GameObject.Find("Bola");
-                                       // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                       // msg_to_bola.action = (int)BolaActions.ChangeDirectionX;
-                                       // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
-                                        Debug.Log("mensaje enviado X");
+                        if (NearestX == CircleX)
+                            TMsg.V3 = new Vector3(1f, -1f, 1f);
+                        else if (NearestY == CircleY)
+                            TMsg.V3 = new Vector3(-1f, 1f, 1f);
+                        else
+                            TMsg.V3 = new Vector3(-1f, -1f, 1f);
 
-                                        Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
-                                        TMsg.V3 = new Vector3(-1f, 1f, 1f);
-                                        Engine.SendMsg(TMsg, gameObject, b, tenMillis);
-                                    } else
-                                    {
-                                        GameObject b = GameObject.Find("Bola");
-                                       // Action msg_to_bola = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                       // msg_to_bola.action = (int)BolaActions.ChangeDirectionXY;
-                                       // Engine.SendMsg(msg_to_bola, gameObject, b, tenMillis);
-                                        Debug.Log("mensaje enviado XY");
+                        Engine.SendMsg(TMsg, gameObject, BolaManagerMailBox, fiveMillis);
 
-                                        Transform TMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Rotation);
-                                        TMsg.V3 = new Vector3(-1f, -1f, 1f);
-                                        Engine.SendMsg(TMsg, gameObject, b, tenMillis);
-                                    }
-                                }
-                                Action ActMsg;
-                                //Get a new message to activate a new action in the object
-                                ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                                //Update the content of the message sending and activation 
-                                ActMsg.action = (int)LadrilloActions.Destroy;
-                                Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, tenMillis);
-                                
-                            } else
-                            {
-                                Engine.SendMsg(Msg, tenMillis);
-                            }
-     
-                            break;
-
-                            case (int)LadrilloActions.Destroy:
-                                Engine.PushMsg(Msg); //descartamos el mensaje
-                                Destroy(gameObject);
-                            break;
-
-                        //   case (int)LadrilloActions.ChangeColor:
-                        //       Color randomColor = new Color(Random.value, Random.value, Random.value, 1.0f);
-                        //       renderComponent.material.SetColor("_Color", randomColor);
-                        //       Engine.SendMsg(Msg, (HRT_Time)(((double)oneSecond)*(1-Random.value*0.5d)));
-                        //       //Este mensaje se reutiliza para volver a mandarse a s� mismo. No hace falta devolver al pool empleando PutMsg(Msg);
-                        //      break;
-
-                        default:
-                            break;
+                        state = LadrilloStates.Destroyed;
+                        //Get a new message to activate a new action in the object
+                        Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                        //Update the content of the message sending and activation 
+                        ActMsg.action = (int)LadrilloActions.Destroy;
+                        Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
                     }
-                else
-                {
-                    switch ((int)a.action)
-                    {
-                        case (int)UserActions.GetSteady: //Stop the movement of the object
-                            state = LadrilloStates.Steady;
-                            break;
-                      
-                    }
-                    Engine.PushMsg(Msg);
                 }
-        break;
+
+                break;
+
+            case (int)UserMsgTypes.Action:
+                Engine.PushMsg(Msg);
+
+                Action a = (Action)Msg;
+                //Sending automessage
+                if (myName == Msg.Sender.name && a.action == (int)LadrilloActions.Destroy)
+                    Destroy(gameObject);               
+                break;
+
+            default:
+                Engine.PushMsg(Msg);
+                break;
         }
     }
 }
