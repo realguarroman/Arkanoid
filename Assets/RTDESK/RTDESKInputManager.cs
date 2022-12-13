@@ -88,7 +88,7 @@ public class RTDESKInputManager : MonoBehaviour
         {
 			List<MessageManager> LRM = new List<MessageManager>();
 			LRM.Add(Rmethod);
-			ActiveInputs.Add(Kc, new List<MessageManager>());
+			ActiveInputs.Add(Kc, LRM);
 		}
 		Debug.Log("Registrando otro código");
 	}
