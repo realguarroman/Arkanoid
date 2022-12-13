@@ -48,32 +48,12 @@ public class LadrilloReceiveMessage : MonoBehaviour
         fiveMillis = Engine.ms2Ticks(5);
         halfSecond = Engine.ms2Ticks(500);
 
-        //RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
-        //Register keys that we want to be signaled in case the user press them
-        // IM.RegisterKeyCode(ReceiveMessage, KeyCode.UpArrow);
-        // IM.RegisterKeyCode(ReceiveMessage, KeyCode.DownArrow);
-        // IM.RegisterKeyCode(ReceiveMessage, KeyCode.LeftArrow);
-        // IM.RegisterKeyCode(ReceiveMessage, KeyCode.RightArrow);
-
-        //Get a new message to activate a new action in the object
-        Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-        //Update the content of the message sending and activation 
-        ActMsg.action = (int)LadrilloActions.ChangeColor;
-        Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, halfSecond);
-
-        //Get a new message to activate a new action in the object
-        ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-        //Update the content of the message sending and activation 
-        ActMsg.action = (int)LadrilloActions.CheckCollision;
-        Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
-
         ObjectMsg ObjMsg = (ObjectMsg)Engine.PopMsg((int)UserMsgTypes.Object);
         ObjMsg.o = gameObject;
         Engine.SendMsg(ObjMsg, gameObject, BolaManagerMailBox, fiveMillis);
     }
 
-    void ReceiveMessage(MsgContent Msg)
-    {
+    void ReceiveMessage(MsgContent Msg) {
         switch (Msg.Type)
         {
             case (int)UserMsgTypes.Position:
@@ -115,9 +95,7 @@ public class LadrilloReceiveMessage : MonoBehaviour
                         Engine.SendMsg(TMsg, gameObject, BolaManagerMailBox, fiveMillis);
 
                         state = LadrilloStates.Destroyed;
-                        //Get a new message to activate a new action in the object
                         Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                        //Update the content of the message sending and activation 
                         ActMsg.action = (int)LadrilloActions.Destroy;
                         Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
                     }
@@ -129,7 +107,6 @@ public class LadrilloReceiveMessage : MonoBehaviour
                 Engine.PushMsg(Msg);
 
                 Action a = (Action)Msg;
-                //Sending automessage
                 if (myName == Msg.Sender.name && a.action == (int)LadrilloActions.Destroy)
                     Destroy(gameObject);               
                 break;
