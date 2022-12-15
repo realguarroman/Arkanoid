@@ -19,8 +19,8 @@ using UnityEngine;
 [RequireComponent(typeof(RTDESKEntity))]
 public class LadrilloReceiveMessage : MonoBehaviour
 {
-    public enum LadrilloActions { CheckCollision, ChangeColor, Destroy };
-    public enum LadrilloStates { Active, Destroyed };
+    enum LadrilloActions { CheckCollision, ChangeColor, Destroy };
+    enum LadrilloStates { Active, Destroyed };
 
     string myName;
     LadrilloStates state;
