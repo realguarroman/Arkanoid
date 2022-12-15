@@ -30,6 +30,7 @@ public class BolaReceiveMessage : MonoBehaviour {
 
     string myName;
     BolaStates state;
+    MessageManager UIManagerMailBox;
     Renderer renderComponent;
     MessageManager MMRaqueta;
     List<MessageManager> MMLadrillos;
@@ -50,6 +51,7 @@ public class BolaReceiveMessage : MonoBehaviour {
     void Start() {
         myName = gameObject.name;
         state = BolaStates.Idle;
+        UIManagerMailBox = RTDESKEntity.getMailBox("UI");
         renderComponent = GetComponent<Renderer>();
         MMRaqueta = RTDESKEntity.getMailBox("Raqueta");
         MMLadrillos = new List<MessageManager>();
@@ -116,6 +118,13 @@ public class BolaReceiveMessage : MonoBehaviour {
                             //Update the content of the message sending and activation 
                             ActMsg.action = (int)RaquetaActions.SetIdle;
                             Engine.SendMsg(ActMsg, gameObject, MMRaqueta, fiveMillis);
+
+
+                            Action ActMsgtoUILoseLife = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                            //Update the content of the message sending and activation 
+                            ActMsgtoUILoseLife.action = (int)UIActions.LoseLife;
+                            Engine.SendMsg(ActMsgtoUILoseLife, gameObject, UIManagerMailBox, fiveMillis);
+
                             break;
                         }
 
@@ -146,6 +155,11 @@ public class BolaReceiveMessage : MonoBehaviour {
                     if (Msg.Sender.name.StartsWith("Ladrillo")) {
                         MessageManager MMLadrillo = RTDESKEntity.getMailBox(Msg.Sender);
                         MMLadrillos.Remove(MMLadrillo);
+
+                        Action ActMsgtoUIBeatenBrick = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                        //Update the content of the message sending and activation 
+                        ActMsgtoUIBeatenBrick.action = (int)UIActions.BeatenBrick;
+                        Engine.SendMsg(ActMsgtoUIBeatenBrick, gameObject, UIManagerMailBox, fiveMillis);
                     }
 
                     p = (Transform)Msg;
@@ -153,6 +167,9 @@ public class BolaReceiveMessage : MonoBehaviour {
                     direction.y *= p.V3.y;
 
                     Engine.PushMsg(Msg);
+
+                 
+               
                     break;
 
                 case (int)UserMsgTypes.Action:

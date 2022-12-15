@@ -14,12 +14,14 @@ using HRT_Time = System.Int64;
 #endif
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum RaquetaActions { Move, SetIdle }
 
 [RequireComponent(typeof(RTDESKEntity))]
 public class RaquetaReceiveMessage : MonoBehaviour {
 
+    
     float WRight = 10f;
     float WLeft = -10f;
 
@@ -30,7 +32,7 @@ public class RaquetaReceiveMessage : MonoBehaviour {
 
     [SerializeField]
     Vector3 direction;
-    float speed = 0.05f;
+    float speed = 0.06f;
 
     RTDESKEngine Engine;
     HRT_Time fiveMillis, halfSecond;
@@ -77,20 +79,20 @@ public class RaquetaReceiveMessage : MonoBehaviour {
     void ReceiveMessage(MsgContent Msg) {
         if (state == RaquetaStates.Idle) {
             Engine.PushMsg(Msg);
-
             if (Msg.Type == (int)RTDESKMsgTypes.Input &&
                 ((RTDESKInputMsg)Msg).c == KeyCode.Space) {
                 Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
                 ActMsg.action = (int)BolaActions.Start;
                 Engine.SendMsg(ActMsg, gameObject, BolaManagerMailBox, fiveMillis);
-
                 state = RaquetaStates.InActive;
                 //Get a new message to activate a new action in the object
                 ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
                 ActMsg.action = (int)RaquetaActions.Move;
                 Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
+
+
             }
         }
 
