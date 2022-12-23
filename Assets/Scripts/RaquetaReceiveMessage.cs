@@ -29,6 +29,7 @@ public class RaquetaReceiveMessage : MonoBehaviour {
 
     RaquetaStates state;
     MessageManager BolaManagerMailBox;
+    MessageManager EngineManagerMailBox;
 
     [SerializeField]
     Vector3 direction;
@@ -51,6 +52,7 @@ public class RaquetaReceiveMessage : MonoBehaviour {
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
+        EngineManagerMailBox = RTDESKEntity.getMailBox(RTDESKEngine.Name);
 
         fiveMillis = Engine.ms2Ticks(5);
         halfSecond = Engine.ms2Ticks(500);
@@ -81,6 +83,10 @@ public class RaquetaReceiveMessage : MonoBehaviour {
             Engine.PushMsg(Msg);
             if (Msg.Type == (int)RTDESKMsgTypes.Input &&
                 ((RTDESKInputMsg)Msg).c == KeyCode.Space) {
+                MsgContent SyncMsg = Engine.PopMsg((int)RTDESKEngine.Actions.SynchSim2RealTime); ;
+                //Update the content of the message sending and activation 
+                Engine.SendMsg(SyncMsg, gameObject, EngineManagerMailBox, fiveMillis);
+
                 Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
                 ActMsg.action = (int)BolaActions.Start;

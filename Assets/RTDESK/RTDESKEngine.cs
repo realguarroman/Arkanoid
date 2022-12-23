@@ -77,9 +77,11 @@ public class RTDESKEngine : MonoBehaviour
 
 		//Now set the timer manager with the default clocks set up. Now the MsgDispatcher can select the one it needs
 		MsgDispatcher.ResetClocks();
+
+		GetComponent<RTDESKEntity>().MailBox = ReceiveMessage;
 	}
 
-    void Start()
+	void Start()
     {
 		SendMsg(MsgPool.PopMsg((int)Actions.SynchSim2RealTime), gameObject, ReceiveMessage);
 	}
