@@ -69,6 +69,13 @@ public class ObjectMsg : MsgContent
 	public ObjectMsg() { Type = (int)UserMsgTypes.Object; }
 }
 
+public class StringMsg : MsgContent
+{
+	public string msg;
+
+	public StringMsg() { Type = (int)UserMsgTypes.String; }
+}
+
 //Translaci�n, Rotaci�n y Escala
 public class TRE : MsgContent
 {
@@ -90,7 +97,7 @@ public class Action : MsgContent
 public enum UserMsgTypes
 {
 	Position = RTDESKMsgTypes.RTDESK_MAX_MsgTypes,	//The first enumerated user message type is the last used by the RTDESK system
-	Rotation, Scale, TRE, Speed, Action, Object, TotalAmountUserMsgTypes
+	Rotation, Scale, TRE, Speed, Action, Object, String, TotalAmountUserMsgTypes
 };
 
 public enum UserActions {	Start,
@@ -137,6 +144,9 @@ public class UserMessagesFactory
 				break;
 			case (int)UserMsgTypes.Action:
 				msg = new Action();
+				break;
+			case (int)UserMsgTypes.String:
+				msg = new StringMsg();
 				break;
 			default:
 				msg = new MsgContent();
