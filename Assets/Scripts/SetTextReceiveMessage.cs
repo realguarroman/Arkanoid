@@ -29,7 +29,7 @@ namespace Assets.Scripts
             {
                 case (int)UserMsgTypes.String:
                     Engine.PushMsg(Msg);
-                    textcomponent.text = "<color=##e28743>" + ((StringMsg)Msg).msg + "</color>";
+                    textcomponent.text = "<color=#eeeee4>" + ((StringMsg)Msg).msg + "</color>";
                     break;
 
                 default:
