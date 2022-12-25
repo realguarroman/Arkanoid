@@ -30,10 +30,11 @@ public class BolaReceiveMessage : MonoBehaviour {
 
     string myName;
     BolaStates state;
-    MessageManager UIManagerMailBox;
     Renderer renderComponent;
     MessageManager MMRaqueta;
     List<MessageManager> MMLadrillos;
+    MessageManager MMUI;
+
 
     [SerializeField]
     Vector3 direction;
@@ -51,9 +52,10 @@ public class BolaReceiveMessage : MonoBehaviour {
     void Start() {
         myName = gameObject.name;
         state = BolaStates.Idle;
-        UIManagerMailBox = RTDESKEntity.getMailBox("UI");
+
         renderComponent = GetComponent<Renderer>();
         MMRaqueta = RTDESKEntity.getMailBox("Raqueta");
+        MMUI = RTDESKEntity.getMailBox("UI");
         MMLadrillos = new List<MessageManager>();
 
         direction = new Vector3(1f, 1f, 0);
@@ -75,33 +77,33 @@ public class BolaReceiveMessage : MonoBehaviour {
             MMLadrillos.Add(mm);
         }
 
+        else if (Msg.Type == (int)UserMsgTypes.Position 
+            && Msg.Sender.name == "Raqueta") {
+            Engine.PushMsg(Msg);
+            p = (Transform)Msg;
+            transform.position = new Vector3(p.V3.x,
+                p.V3.y + transform.localScale.y / 2f, 0);
+        }
+
         else if (state == BolaStates.Idle) {
             Engine.PushMsg(Msg);
 
-            switch (Msg.Type) {
-                case (int)UserMsgTypes.Position:
-                    p = (Transform)Msg;
-                    transform.position = new Vector3(p.V3.x, 
-                        p.V3.y + transform.localScale.y / 2f, 0);
-                    break;
-                case (int)UserMsgTypes.Action:
-                    if (((Action)Msg).action == (int)BolaActions.Start) {
-                            state = BolaStates.Moving;
+            if (Msg.Type == (int)UserMsgTypes.Action &&
+                ((Action)Msg).action == (int)BolaActions.Start) {
+                state = BolaStates.Moving;
 
-                            //Get a new message to change position
-                            Transform PosMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Position);
-                            //Update the content of the message
-                            PosMsg.V3 = direction;
+                //Get a new message to change position
+                Transform PosMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Position);
+                //Update the content of the message
+                PosMsg.V3 = direction;
 
-                            //Get a new message to activate a new action in the object
-                            Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                            //Update the content of the message sending and activation 
-                            ActMsg.action = (int)BolaActions.ChangeColor;
+                //Get a new message to activate a new action in the object
+                Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                //Update the content of the message sending and activation 
+                ActMsg.action = (int)BolaActions.ChangeColor;
 
-                            Engine.SendMsg(PosMsg, gameObject, ReceiveMessage, fiveMillis);
-                            Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, halfSecond);
-                    }
-                    break;
+                Engine.SendMsg(PosMsg, gameObject, ReceiveMessage, fiveMillis);
+                Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, halfSecond);
             }
         }
 
@@ -119,11 +121,15 @@ public class BolaReceiveMessage : MonoBehaviour {
                             ActMsg.action = (int)RaquetaActions.SetIdle;
                             Engine.SendMsg(ActMsg, gameObject, MMRaqueta, fiveMillis);
 
+                            ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                            //Update the content of the message sending and activation 
+                            ActMsg.action = (int)UIActions.SetIdle;
+                            Engine.SendMsg(ActMsg, gameObject, MMUI, fiveMillis);
 
                             Action ActMsgtoUILoseLife = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                             //Update the content of the message sending and activation 
                             ActMsgtoUILoseLife.action = (int)UIActions.LoseLife;
-                            Engine.SendMsg(ActMsgtoUILoseLife, gameObject, UIManagerMailBox, fiveMillis);
+                            Engine.SendMsg(ActMsgtoUILoseLife, gameObject, MMUI, fiveMillis);
 
                             break;
                         }
@@ -135,7 +141,7 @@ public class BolaReceiveMessage : MonoBehaviour {
                             direction.y = -direction.y;
 
                         transform.Translate(direction * speed);
-                    
+
                         foreach (MessageManager MM in MMLadrillos) {
                             p = (Transform)Engine.PopMsg((int)UserMsgTypes.Position);
                             p.V3 = transform.position;
@@ -159,7 +165,7 @@ public class BolaReceiveMessage : MonoBehaviour {
                         Action ActMsgtoUIBeatenBrick = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                         //Update the content of the message sending and activation 
                         ActMsgtoUIBeatenBrick.action = (int)UIActions.BeatenBrick;
-                        Engine.SendMsg(ActMsgtoUIBeatenBrick, gameObject, UIManagerMailBox, fiveMillis);
+                        Engine.SendMsg(ActMsgtoUIBeatenBrick, gameObject, MMUI, fiveMillis);
                     }
 
                     p = (Transform)Msg;
@@ -168,8 +174,6 @@ public class BolaReceiveMessage : MonoBehaviour {
 
                     Engine.PushMsg(Msg);
 
-                 
-               
                     break;
 
                 case (int)UserMsgTypes.Action:

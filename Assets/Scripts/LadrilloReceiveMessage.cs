@@ -54,8 +54,7 @@ public class LadrilloReceiveMessage : MonoBehaviour
     }
 
     void ReceiveMessage(MsgContent Msg) {
-        switch (Msg.Type)
-        {
+        switch (Msg.Type) {
             case (int)UserMsgTypes.Position:
                 Engine.PushMsg(Msg);
 

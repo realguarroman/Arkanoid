@@ -14,9 +14,8 @@ using HRT_Time = System.Int64;
 #endif
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public enum RaquetaActions { Move, SetIdle }
+public enum RaquetaActions { Start, Move, SetIdle }
 
 [RequireComponent(typeof(RTDESKEntity))]
 public class RaquetaReceiveMessage : MonoBehaviour {
@@ -29,7 +28,6 @@ public class RaquetaReceiveMessage : MonoBehaviour {
 
     RaquetaStates state;
     MessageManager BolaManagerMailBox;
-    MessageManager EngineManagerMailBox;
 
     [SerializeField]
     Vector3 direction;
@@ -52,18 +50,9 @@ public class RaquetaReceiveMessage : MonoBehaviour {
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
-        EngineManagerMailBox = RTDESKEntity.getMailBox(RTDESKEngine.Name);
 
         fiveMillis = Engine.ms2Ticks(5);
         halfSecond = Engine.ms2Ticks(500);
-
-        RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
-        // Register keys that we want to be signaled in case the user press them
-
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.LeftArrow);
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.RightArrow);
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.DownArrow);
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.Space);
 
         transform.position = new Vector3(
             Random.Range(WLeft + transform.localScale.y/2f, 
@@ -76,29 +65,26 @@ public class RaquetaReceiveMessage : MonoBehaviour {
         TransMsg.V3 = new Vector3(transform.position.x,
             transform.position.y + transform.localScale.x / 2, 0);
         Engine.SendMsg(TransMsg, gameObject, BolaManagerMailBox, fiveMillis);
+
+        RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
+        // Register keys that we want to be signaled in case the user press them
+
+        IM.RegisterKeyCode(ReceiveMessage, KeyCode.LeftArrow);
+        IM.RegisterKeyCode(ReceiveMessage, KeyCode.RightArrow);
+        IM.RegisterKeyCode(ReceiveMessage, KeyCode.DownArrow);
     }
 
     void ReceiveMessage(MsgContent Msg) {
         if (state == RaquetaStates.Idle) {
             Engine.PushMsg(Msg);
-            if (Msg.Type == (int)RTDESKMsgTypes.Input &&
-                ((RTDESKInputMsg)Msg).c == KeyCode.Space) {
-                MsgContent SyncMsg = Engine.PopMsg((int)RTDESKEngine.Actions.SynchSim2RealTime); ;
-                //Update the content of the message sending and activation 
-                Engine.SendMsg(SyncMsg, gameObject, EngineManagerMailBox, fiveMillis);
 
+            if (Msg.Type == (int)UserMsgTypes.Action && 
+                ((Action)Msg).action == (int)RaquetaActions.Start) {
                 Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
-                //Update the content of the message sending and activation 
-                ActMsg.action = (int)BolaActions.Start;
-                Engine.SendMsg(ActMsg, gameObject, BolaManagerMailBox, fiveMillis);
-                state = RaquetaStates.InActive;
-                //Get a new message to activate a new action in the object
-                ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
                 ActMsg.action = (int)RaquetaActions.Move;
                 Engine.SendMsg(ActMsg, gameObject, ReceiveMessage, fiveMillis);
-
-
+                state = RaquetaStates.Active;
             }
         }
 

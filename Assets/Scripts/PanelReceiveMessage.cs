@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using UnityEngine.UI;
 using UnityEngine;
+
+public enum PanelActions { Hide, Show };
 
 namespace Assets.Scripts
 {
-    public class SetTextReceiveMessage : MonoBehaviour
+    public class PanelReceiveMessage : MonoBehaviour
     {
+
         RTDESKEngine Engine;
-        UnityEngine.UI.Text textcomponent;
 
         private void Awake()
         {
@@ -18,8 +20,6 @@ namespace Assets.Scripts
         {
             GameObject engine = GameObject.Find(RTDESKEngine.Name);
             Engine = engine.GetComponent<RTDESKEngine>();
-
-            textcomponent = GetComponent<UnityEngine.UI.Text>();
         }
 
         // Use this for initialization
@@ -27,9 +27,18 @@ namespace Assets.Scripts
         {
             switch (Msg.Type)
             {
-                case (int)UserMsgTypes.String:
+                case (int)UserMsgTypes.Action:
                     Engine.PushMsg(Msg);
-                    textcomponent.text = "<color=#eeeee4>" + ((StringMsg)Msg).msg + "</color>";
+                    Action a = (Action)Msg;
+
+                    switch (a.action) {
+                        case (int)PanelActions.Hide:
+                            gameObject.SetActive(false);
+                            break;
+                        case (int)PanelActions.Show:
+                            gameObject.SetActive(true);
+                            break;
+                    }
                     break;
 
                 default:
