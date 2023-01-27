@@ -11,7 +11,8 @@ public static class Tags
 		NULL,
 		INIT,
 		MOVING,
-		LAYING_BRICK
+		LAYING_BRICK,
+		DEAD
 	}
 
 	//Transition tags
@@ -20,7 +21,9 @@ public static class Tags
 		NULL,
 		INIT_TO_MOVING,
 		MOVING_TO_LAYING_BRICK,
-		LAYING_BRICK_TO_MOVING
+		LAYING_BRICK_TO_MOVING,
+		MOVING_TO_DEAD,
+		LAYING_BRICK_TO_DEAD
 	}
 
 	//EVENT TAGS
@@ -29,19 +32,22 @@ public static class Tags
 		NULL,
 		PLAY,
 		LAY_BRICK_E,
-		MOVE_E
+		MOVE_E,
+		KILL_E,
+		RESPAWN_E
 	}
 
 	//ACTION TAGS
 	public enum ActionTags
 	{
 		NULL,
-		RESET_NPC,
-		FINISH_INIT,
 		START_MOVING,
 		MOVE,
 		LAY_BRICK,
-		FINISH_LAYING_BRICK
+		FINISH_LAYING_BRICK,
+		CHECK_RESPAWN,
+		KILL,
+		RESPAW
 	}
 
 	// <summary>

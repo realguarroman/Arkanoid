@@ -1747,7 +1747,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brick_prefab: {fileID: 8637047408697167447, guid: 70336c80d3527459f8646eb8ff41419a, type: 3}
-  ladrillos_set: {fileID: 0}
 --- !u!1001 &638065947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3170,7 +3169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1085521518
 Transform:
   m_ObjectHideFlags: 0
@@ -6031,11 +6030,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647736285995279532, guid: a73f7244c8c644b20834354f771355fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1647736285995279532, guid: a73f7244c8c644b20834354f771355fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.940001
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 1647736285995279532, guid: a73f7244c8c644b20834354f771355fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6076,6 +6075,18 @@ PrefabInstance:
     - target: {fileID: 1647736285995279535, guid: a73f7244c8c644b20834354f771355fc, type: 3}
       propertyPath: m_TagString
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647736286069011448, guid: a73f7244c8c644b20834354f771355fc, type: 3}
+      propertyPath: m_Name
+      value: Sphere1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647736287563154440, guid: a73f7244c8c644b20834354f771355fc, type: 3}
+      propertyPath: m_Name
+      value: Sphere2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893920959512163145, guid: a73f7244c8c644b20834354f771355fc, type: 3}
+      propertyPath: m_Size.x
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a73f7244c8c644b20834354f771355fc, type: 3}

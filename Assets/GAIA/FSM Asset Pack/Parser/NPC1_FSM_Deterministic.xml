@@ -9,8 +9,8 @@
 			<State Initial="YES">
 				<S_Name>INIT</S_Name>
 				<S_Action>NULL</S_Action>
-				<S_inAction>RESET_NPC</S_inAction>
-				<S_outAction>FINISH_INIT</S_outAction>
+				<S_inAction>NULL</S_inAction>
+				<S_outAction>NULL</S_outAction>
 				<S_Fsm></S_Fsm>
 			</State>
 			<State Initial="NO">
@@ -25,6 +25,13 @@
 				<S_Action>NULL</S_Action>
 				<S_inAction>LAY_BRICK</S_inAction>
 				<S_outAction>FINISH_LAYING_BRICK</S_outAction>
+				<S_Fsm></S_Fsm>
+			</State>
+			<State Initial="NO">
+				<S_Name>DEAD</S_Name>
+				<S_Action>CHECK_RESPAWN</S_Action>
+				<S_inAction>KILL</S_inAction>
+				<S_outAction>RESPAW</S_outAction>
 				<S_Fsm></S_Fsm>
 			</State>
 		</States>
@@ -62,6 +69,42 @@
 				<Events>
 					<Event>
 						<ID>MOVE_E</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>MOVING_TO_DEAD</T_Name>
+				<T_Origin>MOVING</T_Origin>
+				<T_Destination>DEAD</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>KILL_E</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>LAYING_BRICK_TO_DEAD</T_Name>
+				<T_Origin>LAYING_BRICK</T_Origin>
+				<T_Destination>DEAD</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>KILL_E</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>DEAD_TO_MOVING</T_Name>
+				<T_Origin>DEAD</T_Origin>
+				<T_Destination>MOVING</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>RESPAW_E</ID>
 						<Type>BASIC</Type>
 					</Event>
 				</Events>

@@ -54,9 +54,9 @@ public class BolaReceiveMessage : MonoBehaviour {
         state = BolaStates.Idle;
 
         var temp = GameObject.Find("Field" + tag);
-        WRight = temp.transform.position.x + temp.transform.localScale.x / 2;
-        WLeft = temp.transform.position.x - temp.transform.localScale.x / 2;
-        WTop = temp.transform.position.y + temp.transform.localScale.y/2;
+        WRight = temp.transform.position.x + (temp.transform.localScale.x / 2);
+        WLeft = temp.transform.position.x - (temp.transform.localScale.x / 2);
+        WTop = temp.transform.position.y + (temp.transform.localScale.y/2) - 3.5f;
 
         renderComponent = GetComponent<Renderer>();
         MMRaqueta = RTDESKEntity.getMailBox("Raqueta" + tag);
