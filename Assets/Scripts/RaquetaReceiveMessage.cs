@@ -20,9 +20,12 @@ public enum RaquetaActions { Start, Move, SetIdle }
 [RequireComponent(typeof(RTDESKEntity))]
 public class RaquetaReceiveMessage : MonoBehaviour {
 
+    KeyCode KLeft;
+    KeyCode KRight;
+    KeyCode KDown;
     
-    float WRight = 10f;
-    float WLeft = -10f;
+    float WRight;
+    float WLeft;
 
     enum RaquetaStates { Idle, Active, InActive }
 
@@ -44,7 +47,11 @@ public class RaquetaReceiveMessage : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         state = RaquetaStates.Idle;
-        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola");
+        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
+
+        var temp = GameObject.Find("Field" + tag);
+        WRight = temp.transform.position.x + temp.transform.localScale.x/2;
+        WLeft = temp.transform.position.x - temp.transform.localScale.x / 2;
 
         direction = new Vector3(0f, 0f, 0f);
 
@@ -57,21 +64,32 @@ public class RaquetaReceiveMessage : MonoBehaviour {
         transform.position = new Vector3(
             Random.Range(WLeft + transform.localScale.y/2f, 
             WRight - transform.localScale.x/2f ), 
-            transform.position.y, 0);
+            transform.position.y, -1.5f);
 
         //Get a new message to activate a new action in the object
         Transform TransMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Position);
         //Update the content of the message sending and activation 
         TransMsg.V3 = new Vector3(transform.position.x,
-            transform.position.y + transform.localScale.x / 2, 0);
+            transform.position.y + transform.localScale.x / 2, transform.position.z);
         Engine.SendMsg(TransMsg, gameObject, BolaManagerMailBox, fiveMillis);
 
         RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
         // Register keys that we want to be signaled in case the user press them
 
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.LeftArrow);
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.RightArrow);
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.DownArrow);
+        if (tag == "1") {
+            KLeft = KeyCode.LeftArrow;
+            KRight = KeyCode.RightArrow;
+            KDown = KeyCode.DownArrow;
+        }
+        else {
+            KLeft = KeyCode.A;
+            KRight = KeyCode.D;
+            KDown = KeyCode.S;
+        }
+
+        IM.RegisterKeyCode(ReceiveMessage, KLeft);
+        IM.RegisterKeyCode(ReceiveMessage, KRight);
+        IM.RegisterKeyCode(ReceiveMessage, KDown);
     }
 
     void ReceiveMessage(MsgContent Msg) {
@@ -94,17 +112,10 @@ public class RaquetaReceiveMessage : MonoBehaviour {
                 case (int)RTDESKMsgTypes.Input:
                     Engine.PushMsg(Msg);
 
-                    switch (((RTDESKInputMsg)Msg).c) {
-                        case KeyCode.LeftArrow:
-                            direction.y = 1f;
-                            break;
-                        case KeyCode.RightArrow:
-                            direction.y = -1f;
-                            break;
-                        case KeyCode.DownArrow:
-                            direction.y = 0f;
-                            break;
-                    }
+                    KeyCode KIncoming = ((RTDESKInputMsg)Msg).c;
+                    if (KIncoming == KLeft) direction.y = 1f;
+                    else if (KIncoming == KRight) direction.y = -1f;
+                    else if (KIncoming == KDown) direction.y = 0f;
                     break;
 
                 case (int)UserMsgTypes.Action:
@@ -127,7 +138,7 @@ public class RaquetaReceiveMessage : MonoBehaviour {
                             Transform TransMsg = (Transform)Engine.PopMsg((int)UserMsgTypes.Position);
                             //Update the content of the message sending and activation 
                             TransMsg.V3 = new Vector3(transform.position.x,
-                                transform.position.y + transform.localScale.x / 2, 0);
+                                transform.position.y + transform.localScale.x / 2, transform.position.z);
                             Engine.SendMsg(TransMsg, gameObject, BolaManagerMailBox, fiveMillis);
                             break;
 

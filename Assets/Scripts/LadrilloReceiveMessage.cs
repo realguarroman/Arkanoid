@@ -40,7 +40,7 @@ public class LadrilloReceiveMessage : MonoBehaviour
     {
         myName = gameObject.name;
         state = LadrilloStates.Active;
-        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola");
+        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();

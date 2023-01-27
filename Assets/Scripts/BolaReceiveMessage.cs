@@ -24,9 +24,9 @@ public class BolaReceiveMessage : MonoBehaviour {
 
     enum BolaStates { Idle, Moving }
 
-    float WRight = 10f;
-    float WLeft = -10f;
-    float WTop = 30f;
+    float WRight;
+    float WLeft;
+    float WTop;
 
     string myName;
     BolaStates state;
@@ -53,9 +53,14 @@ public class BolaReceiveMessage : MonoBehaviour {
         myName = gameObject.name;
         state = BolaStates.Idle;
 
+        var temp = GameObject.Find("Field" + tag);
+        WRight = temp.transform.position.x + temp.transform.localScale.x / 2;
+        WLeft = temp.transform.position.x - temp.transform.localScale.x / 2;
+        WTop = temp.transform.position.y + temp.transform.localScale.y/2;
+
         renderComponent = GetComponent<Renderer>();
-        MMRaqueta = RTDESKEntity.getMailBox("Raqueta");
-        MMUI = RTDESKEntity.getMailBox("UI");
+        MMRaqueta = RTDESKEntity.getMailBox("Raqueta" + tag);
+        MMUI = RTDESKEntity.getMailBox("UI" + tag);
         MMLadrillos = new List<MessageManager>();
 
         direction = new Vector3(1f, 1f, 0);
@@ -78,11 +83,11 @@ public class BolaReceiveMessage : MonoBehaviour {
         }
 
         else if (Msg.Type == (int)UserMsgTypes.Position 
-            && Msg.Sender.name == "Raqueta") {
+            && Msg.Sender.name == "Raqueta" + tag) {
             Engine.PushMsg(Msg);
             p = (Transform)Msg;
             transform.position = new Vector3(p.V3.x,
-                p.V3.y + transform.localScale.y / 2f, 0);
+                p.V3.y + transform.localScale.y / 2f, p.V3.z);
         }
 
         else if (state == BolaStates.Idle) {
@@ -158,7 +163,7 @@ public class BolaReceiveMessage : MonoBehaviour {
                     break;
 
                 case (int)UserMsgTypes.Rotation:
-                    if (Msg.Sender.name.StartsWith("Ladrillo")) {
+                    if (Msg.Sender.name.StartsWith("Ladrillo" + tag)) {
                         MessageManager MMLadrillo = RTDESKEntity.getMailBox(Msg.Sender);
                         MMLadrillos.Remove(MMLadrillo);
 

@@ -25,6 +25,8 @@ public class UIReceiveMessage : MonoBehaviour {
 
     public enum UIState { Start, Playing, Finished };
 
+    KeyCode KSpace;
+
     int lives;
     int score;
     UIState state;
@@ -51,12 +53,12 @@ public class UIReceiveMessage : MonoBehaviour {
         score = 0;
         state = UIState.Start;
 
-        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola");
-        RaquetaManagerMailBox = RTDESKEntity.getMailBox("Raqueta");
-        ScoreManagerMailBox = RTDESKEntity.getMailBox("Score");
-        LivesManagerMailBox = RTDESKEntity.getMailBox("Lives");
-        PanelManagerMailBox = RTDESKEntity.getMailBox("Panel");
-        TextManagerMailBox = RTDESKEntity.getMailBox("Text");
+        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
+        RaquetaManagerMailBox = RTDESKEntity.getMailBox("Raqueta" + tag);
+        ScoreManagerMailBox = RTDESKEntity.getMailBox("Score" + tag);
+        LivesManagerMailBox = RTDESKEntity.getMailBox("Lives" + tag);
+        PanelManagerMailBox = RTDESKEntity.getMailBox("Panel" + tag);
+        TextManagerMailBox = RTDESKEntity.getMailBox("Text" + tag);
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
@@ -64,15 +66,18 @@ public class UIReceiveMessage : MonoBehaviour {
 
         fiveMillis = Engine.ms2Ticks(5);
 
+        if (tag == "1") KSpace = KeyCode.Space;
+        else KSpace = KeyCode.W;
+
         RTDESKInputManager IM = engine.GetComponent<RTDESKInputManager>();
         // Register keys that we want to be signaled in case the user press them
-        IM.RegisterKeyCode(ReceiveMessage, KeyCode.Space);
+        IM.RegisterKeyCode(ReceiveMessage, KSpace);
     }
 
     void ReceiveMessage(MsgContent Msg) {
 
         if (Msg.Type == (int)RTDESKMsgTypes.Input && 
-            ((RTDESKInputMsg)Msg).c == KeyCode.Space) {
+            ((RTDESKInputMsg)Msg).c == KSpace) {
             Engine.PushMsg(Msg);
 
             if (state == UIState.Start) {
@@ -116,14 +121,14 @@ public class UIReceiveMessage : MonoBehaviour {
                         lives--;
 
                         StringMsg strmsg = (StringMsg)Engine.PopMsg((int)UserMsgTypes.String);
-                        strmsg.msg = "<color=#feae34>" + "Lives: " + lives.ToString() + "</color>";
+                        strmsg.msg = $"<color=#feae34>Lives: {lives}</color>";
                         Engine.SendMsg(strmsg, gameObject, LivesManagerMailBox, fiveMillis);
 
                         strmsg = (StringMsg)Engine.PopMsg((int)UserMsgTypes.String);
-                        strmsg.msg = "Para continuar jugando presione la <color=#feae34>barra espaciadora</color>.";
+                        strmsg.msg = $"Para continuar jugando presione <color=#feae34>{KSpace}</color>.";
 
                         if (lives < 1) {
-                            strmsg.msg = "Ha perdido la partida. Para volver a jugar presione la <color=#feae34>barra espaciadora</color>.";
+                            strmsg.msg = $"Ha perdido la partida. Para volver a jugar presione <color=#feae34>{KSpace}</color>.";
                             state = UIState.Finished;
                         }
 
@@ -140,12 +145,12 @@ public class UIReceiveMessage : MonoBehaviour {
                         score = score + 10;
 
                         StringMsg strmsg = (StringMsg)Engine.PopMsg((int)UserMsgTypes.String);
-                        strmsg.msg = "<color=#feae34>" + "Score: " + score.ToString() + "</color>";
+                        strmsg.msg = $"<color=#feae34>Score: {score}</color>";
                         Engine.SendMsg(strmsg, gameObject, ScoreManagerMailBox, fiveMillis);
 
                         if (score == 350) {
                             strmsg = (StringMsg)Engine.PopMsg((int)UserMsgTypes.String);
-                            strmsg.msg = "Ha ganado la partida. Para volver a jugar presione la <color=#feae34>barra espaciadora</color>.";
+                            strmsg.msg = $"Ha ganado la partida. Para volver a jugar presione <color=#feae34>{KSpace}</color>.";
                             Engine.SendMsg(strmsg, gameObject, TextManagerMailBox, fiveMillis);
 
                             Action ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
