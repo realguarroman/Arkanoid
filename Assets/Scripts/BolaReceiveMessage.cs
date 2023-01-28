@@ -35,6 +35,7 @@ public class BolaReceiveMessage : MonoBehaviour {
     List<MessageManager> MMLadrillos;
     MessageManager MMUI;
     MessageManager MMNPC1;
+    MessageManager MMNPC2;
 
     [SerializeField]
     Vector3 direction;
@@ -62,6 +63,7 @@ public class BolaReceiveMessage : MonoBehaviour {
         MMRaqueta = RTDESKEntity.getMailBox("Raqueta" + tag);
         MMUI = RTDESKEntity.getMailBox("UI" + tag);
         MMNPC1 = RTDESKEntity.getMailBox("Enemy" + tag + "_1");
+        MMNPC2 = RTDESKEntity.getMailBox("Enemy" + tag + "_2");
         MMLadrillos = new List<MessageManager>();
 
         direction = new Vector3(1f, 1f, 0);
@@ -134,8 +136,13 @@ public class BolaReceiveMessage : MonoBehaviour {
 
                             ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                             //Update the content of the message sending and activation 
-                            ActMsg.action = (int)NPC1_FSM_Actions.SetIdle;
+                            ActMsg.action = (int)NPC1_Actions.SetIdle;
                             Engine.SendMsg(ActMsg, gameObject, MMNPC1, fiveMillis);
+
+                            ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                            //Update the content of the message sending and activation 
+                            ActMsg.action = (int)NPC2_Actions.SetIdle;
+                            Engine.SendMsg(ActMsg, gameObject, MMNPC2, fiveMillis);
 
                             Action ActMsgtoUILoseLife = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                             //Update the content of the message sending and activation 

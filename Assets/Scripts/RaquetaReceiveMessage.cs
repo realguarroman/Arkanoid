@@ -50,8 +50,8 @@ public class RaquetaReceiveMessage : MonoBehaviour {
         BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
 
         var temp = GameObject.Find("Field" + tag);
-        WRight = temp.transform.position.x + temp.transform.localScale.x/2;
-        WLeft = temp.transform.position.x - temp.transform.localScale.x / 2;
+        WRight = temp.transform.position.x + (temp.transform.localScale.x/2) - 2.2f;
+        WLeft = temp.transform.position.x - (temp.transform.localScale.x/2) + 2.2f;
 
         direction = new Vector3(0f, 0f, 0f);
 

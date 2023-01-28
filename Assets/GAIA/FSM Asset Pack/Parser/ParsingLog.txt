@@ -1,5 +1,4 @@
-LOG FILE	1/28/2023 11:47:24 AM
---------------------------------------
+
  
 =============================================================================================
 ...LOADING A CLASSIC MACHINE named 'NPC1_FSMDeterministic'
@@ -32,33 +31,22 @@ Number of errors: 0
  (Parsing of CLASSIC Machine named 'NPC1_FSMDeterministic' is INCONSISTENT)
  
 =============================================================================================
-...LOADING A CLASSIC MACHINE named 'StarClassicDeterministic'
->>ADDED STATE 'SAD_STAR'.
->>ADDED STATE 'HAPPY_STAR'.
->>ADDED STATE 'LOST_STAR'.
->>ADDED STATE 'HIT_STAR'.
->>ADDED TRANSITION 'TO_HAPPY_STAR' to FSM.
->>ADDED TRANSITION 'TO_HAPPY_STAR' to State 'SAD_STAR'.
->>ADDED TRANSITION 'TO_LOST_STAR' to FSM.
->>ADDED TRANSITION 'TO_LOST_STAR' to State 'SAD_STAR'.
->>ADDED TRANSITION 'TO_HIT_STAR' to FSM.
->>ADDED TRANSITION 'TO_HIT_STAR' to State 'SAD_STAR'.
->>ADDED TRANSITION 'TO_LOST_STAR' to FSM.
->>ADDED TRANSITION 'TO_LOST_STAR' to State 'LOST_STAR'.
->>ADDED TRANSITION 'TO_HAPPY_STAR' to FSM.
->>ADDED TRANSITION 'TO_HAPPY_STAR' to State 'HAPPY_STAR'.
->>ADDED TRANSITION 'TO_SAD_STAR' to FSM.
->>ADDED TRANSITION 'TO_SAD_STAR' to State 'SAD_STAR'.
-States ADDED: 4 of 4
-States NOT ADDED: 0
-Transitions ADDED: 6 of 6
-Transitions NOT ADDED: 0
-Number of errors: 0
->>ERROR. There is not an initial state. Check XML file
- (Parsing of CLASSIC Machine named 'StarClassicDeterministic' is INCONSISTENT)
+...LOADING A BT named 'NPC2_BT'
+>>ADDED TREE Root AND ITS CHILDS.
+>>ADDED TREE Move AND ITS CHILDS.
+>>ADDED TREE SubTree1 AND ITS CHILDS.
+>>ADDED TREE SubTree2 AND ITS CHILDS.
+Trees Added: 4 out of 4
+
+(Parsing of BT named "NPC2_BT" is OK!)
+ 
+Critical errors parsing BTs: 0
+
+LOG FILE	1/28/2023 8:29:06 PM
+--------------------------------------
 
 --------SUMMARY--------
-Number of main machines: 2
+Number of main machines: 1
 Number of submachines: 0
-TOTAL MACHINES ADDED: 2
-NUMBER OF BTs ADDED: 0
+TOTAL MACHINES ADDED: 1
+NUMBER OF BTs ADDED: 1

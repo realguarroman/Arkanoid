@@ -12,7 +12,7 @@ using GAIA;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-public enum NPC1_FSM_Actions { Start, SetIdle };
+public enum NPC1_Actions { Start, SetIdle };
 
 public class NPC1_FSM : MonoBehaviour
 {
@@ -87,10 +87,10 @@ public class NPC1_FSM : MonoBehaviour
         if (Msg.Type == (int)UserMsgTypes.Action) {
 
             switch (((Action)Msg).action) {
-                case (int)NPC1_FSM_Actions.Start:
+                case (int)NPC1_Actions.Start:
                     FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
                     break;
-                case (int)NPC1_FSM_Actions.SetIdle:
+                case (int)NPC1_Actions.SetIdle:
                     Debug.Log("IDLE");
                     FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
                     break;
@@ -175,8 +175,7 @@ public class NPC1_FSM : MonoBehaviour
         visible(true);
     }
 
-    public void ExecuteAction(int actionTag)
-    {
+    public void ExecuteAction(int actionTag) {
         switch (actionTag) {
             case (int)Tags.ActionTags.HIDE:
                 hide();

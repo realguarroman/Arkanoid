@@ -39,6 +39,7 @@ public class UIReceiveMessage : MonoBehaviour {
     MessageManager TextManagerMailBox;
     MessageManager EngineManagerMailBox;
     MessageManager NPC1ManagerMailBox;
+    MessageManager NPC2ManagerMailBox;
 
     RTDESKEngine Engine;
     HRT_Time fiveMillis;
@@ -61,6 +62,7 @@ public class UIReceiveMessage : MonoBehaviour {
         PanelManagerMailBox = RTDESKEntity.getMailBox("Panel" + tag);
         TextManagerMailBox = RTDESKEntity.getMailBox("Text" + tag);
         NPC1ManagerMailBox = RTDESKEntity.getMailBox("Enemy" + tag + "_1");
+        NPC2ManagerMailBox = RTDESKEntity.getMailBox("Enemy" + tag + "_2");
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
@@ -108,8 +110,14 @@ public class UIReceiveMessage : MonoBehaviour {
                 //Get a new message to activate a new action in the object
                 ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
-                ActMsg.action = (int)NPC1_FSM_Actions.Start;
+                ActMsg.action = (int)NPC1_Actions.Start;
                 Engine.SendMsg(ActMsg, gameObject, NPC1ManagerMailBox, fiveMillis);
+
+                //Get a new message to activate a new action in the object
+                ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                //Update the content of the message sending and activation 
+                ActMsg.action = (int)NPC2_Actions.Start;
+                Engine.SendMsg(ActMsg, gameObject, NPC2ManagerMailBox, fiveMillis);
             }
 
             else if (state == UIState.Finished)
