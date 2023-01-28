@@ -4,23 +4,15 @@
 #define OS_64BITS
 #endif
 
-//----constantes y tipos-----
-#if OS_MSWINDOWS
-using RTT_Time = System.Int64;
-using HRT_Time = System.Int64;
-#elif OS_LINUX
-#elif OS_OSX
-#elif OS_ANDROID
-#endif
-
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using GAIA;
 using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
-public enum NPC1_FSM_Actions { Start };
+public enum NPC1_FSM_Actions { Start, SetIdle };
 
 public class NPC1_FSM : MonoBehaviour
 {
@@ -28,6 +20,7 @@ public class NPC1_FSM : MonoBehaviour
     private float range;
     private float speed;
     private int ladrillos_counter;
+    private int colliding_with_bricks;
 
     private Vector3 target;
 
@@ -36,13 +29,12 @@ public class NPC1_FSM : MonoBehaviour
     private float WTop;
     private float WBottom;
 
-    private bool died;
-    private int colliding_with_bricks;
-
     private Stopwatch stopwatch;
+    private Stopwatch stopwatch2;
 
     public GameObject brick_prefab;
     private GameObject ladrillos_set;
+    private Animation animation_comp;
 
     // IA attributes
     private FSM_Machine FSM;                                      // Variable que contiene la FSM.
@@ -52,7 +44,6 @@ public class NPC1_FSM : MonoBehaviour
     private List<int> FSMEnevtsQueue = new List<int>();
 
     RTDESKEngine Engine;
-    HRT_Time fiveMillis;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void addNoEvent() { FSMevents.Add((int)Tags.EventTags.NULL); }
@@ -72,41 +63,52 @@ public class NPC1_FSM : MonoBehaviour
         range = 0.1f;
         speed = 2;
         ladrillos_counter = 36;
+        colliding_with_bricks = 0;
 
         var temp = GameObject.Find("Field" + tag);
-        WRight = temp.transform.position.x + (temp.transform.localScale.x / 2);
-        WLeft = temp.transform.position.x - (temp.transform.localScale.x / 2);
-        WTop = temp.transform.position.y + (temp.transform.localScale.y / 2);
-        WBottom = temp.transform.position.y - (temp.transform.localScale.y / 2);
+        WRight = temp.transform.position.x + (temp.transform.localScale.x / 2) - 2f;
+        WLeft = temp.transform.position.x - (temp.transform.localScale.x / 2) + 2f;
+        WTop = temp.transform.position.y + (temp.transform.localScale.y / 2) - 4f;
+        WBottom = temp.transform.position.y - (temp.transform.localScale.y / 5);
 
-        died = false;
-        colliding_with_bricks = 0;
         ladrillos_set = GameObject.Find("Ladrillos" + tag);
 
         stopwatch = new Stopwatch();
+        stopwatch2 = new Stopwatch();
 
         GameObject engine = GameObject.Find(RTDESKEngine.Name);
         Engine = engine.GetComponent<RTDESKEngine>();
+
+        animation_comp = GetComponent<Animation>();
     }
 
     public void ReceiveMessage(MsgContent Msg) {
         Engine.PushMsg(Msg);
-        if (Msg.Type == (int)UserMsgTypes.Action
-            && ((Action)Msg).action == (int)NPC1_FSM_Actions.Start) {
-            FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY);
+        if (Msg.Type == (int)UserMsgTypes.Action) {
+
+            switch (((Action)Msg).action) {
+                case (int)NPC1_FSM_Actions.Start:
+                    FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
+                    break;
+                case (int)NPC1_FSM_Actions.SetIdle:
+                    Debug.Log("IDLE");
+                    FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
+                    break;
+            }            
         }
     }
-
-    private void start_moving() {
-        stopwatch.Start();
-        set_target();
-    }
-
     void set_target() {
         target = new Vector3(
             Random.Range(WLeft, WRight), 
             Random.Range(WBottom, WTop), 
             transform.position.z);
+    }
+
+    private void start_moving() {
+        animation_comp.Stop();
+        animation_comp.Play("EnemyRotation");
+        stopwatch.Start();
+        set_target();
     }
 
     private void move() {
@@ -119,9 +121,14 @@ public class NPC1_FSM : MonoBehaviour
     }
 
     private void lay_brick() {
+        animation_comp.Stop();
+        animation_comp.Play("LayingBrick");
+    }
+
+    public void lbAnimFinished() {
         var pos = new Vector3(
-            transform.position.x, 
-            transform.position.y, 
+            transform.position.x,
+            transform.position.y,
             -1.5f);
         var rot = new Quaternion();
 
@@ -131,25 +138,58 @@ public class NPC1_FSM : MonoBehaviour
         new_brick.tag = tag;
         new_brick.transform.parent = ladrillos_set.transform;
 
-        FSMEnevtsQueue.Add((int)Tags.EventTags.MOVE_E);
+        FSMEnevtsQueue.Add((int)Tags.EventTags.MOVE_EVENT);
+    }
+
+    private void visible(bool visibility) {
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).gameObject.SetActive(visibility);
+        }
     }
 
     private void kill() {
-        gameObject.SetActive(false);
+        animation_comp.Stop();
+        animation_comp.Play("Exploding");
+    }
+
+    public void expAnimFinished() {
+        visible(false);
+        stopwatch2.Start();
+    }
+
+    private void respaw() {
+        visible(true);
+        animation_comp.Stop();
+        animation_comp.Play("Spawning");
+    }
+
+    public void spawnAnimFinished() {
+        FSMEnevtsQueue.Add((int)Tags.EventTags.RESPAWN_EVENT);
+    }
+
+    private void hide() {
+        visible(false);
+    }
+
+    private void show() {
+        visible(true);
     }
 
     public void ExecuteAction(int actionTag)
     {
-        switch (actionTag)
-        {
+        switch (actionTag) {
+            case (int)Tags.ActionTags.HIDE:
+                hide();
+                break;
+            case (int)Tags.ActionTags.SHOW:
+                show();
+                break;
             case (int)Tags.ActionTags.START_MOVING:
                 start_moving();
                 break;
-
             case (int)Tags.ActionTags.MOVE:
                 move();
                 break;
-
             case (int)Tags.ActionTags.LAY_BRICK:
                 lay_brick();
                 break;
@@ -168,10 +208,15 @@ public class NPC1_FSM : MonoBehaviour
         if (stopwatch.ElapsedMilliseconds > 5000) {
             if (colliding_with_bricks > 0) stopwatch.Restart();
             else {
-                FSMevents.Add((int)Tags.EventTags.LAY_BRICK_E);
                 stopwatch.Reset();
+                FSMevents.Add((int)Tags.EventTags.LAY_BRICK_EVENT);
             }
         }
+        if (stopwatch2.ElapsedMilliseconds > 5000) {
+            stopwatch2.Reset();
+            respaw();
+        }
+
         if (FSMevents.Count == 0) {
             FSMevents.Add((int)Tags.EventTags.NULL);
         }
@@ -189,21 +234,17 @@ public class NPC1_FSM : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        //UnityEngine.Debug.Log("OnCollisionEnter2D");
-
-        if (other.name.StartsWith("Ladrillo"))
-        {
+        if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks++;
         }
         else if (
             other.name.StartsWith("Bola") ||
             other.name.StartsWith("Raqueta")) {
-            FSMEnevtsQueue.Add((int)Tags.EventTags.KILL_E);
+            FSMEnevtsQueue.Add((int)Tags.EventTags.KILL_EVENT);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
+    private void OnTriggerExit2D(Collider2D other) {
         if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks--;
         }

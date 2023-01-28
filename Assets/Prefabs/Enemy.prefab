@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1647736285995279532}
-  - component: {fileID: 1647736285995279533}
   - component: {fileID: 4893920959512163145}
   - component: {fileID: 1273089111839722018}
   - component: {fileID: 4361099960662431635}
+  - component: {fileID: 3139613170283958736}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -38,26 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -180, y: 180, z: -146.89781}
---- !u!95 &1647736285995279533
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647736285995279535}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b86712589ad854c299a0f328786ffd88, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!61 &4893920959512163145
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -118,6 +98,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RTDESKEngineScript: {fileID: 0}
+--- !u!111 &3139613170283958736
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647736285995279535}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 3f41714ee2d3c4e8f877838c3434d0c3, type: 2}
+  - {fileID: 7400000, guid: e53b7cb4f73add94c8f1625bd8690705, type: 2}
+  - {fileID: 7400000, guid: 3b8692ad289e8ab4eaeaf33a75f82ad1, type: 2}
+  - {fileID: 7400000, guid: f9b40580bcc187d408364d891947f96a, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1647736286069011448
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +130,7 @@ GameObject:
   - component: {fileID: 1647736286069011447}
   - component: {fileID: 1647736286069011446}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Sphere2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +227,7 @@ GameObject:
   - component: {fileID: 1647736287427590826}
   - component: {fileID: 1647736287427590829}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Sphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,7 +324,7 @@ GameObject:
   - component: {fileID: 1647736287563154439}
   - component: {fileID: 1647736287563154438}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: Sphere3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

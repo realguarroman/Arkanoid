@@ -34,7 +34,7 @@ public class BolaReceiveMessage : MonoBehaviour {
     MessageManager MMRaqueta;
     List<MessageManager> MMLadrillos;
     MessageManager MMUI;
-
+    MessageManager MMNPC1;
 
     [SerializeField]
     Vector3 direction;
@@ -54,13 +54,14 @@ public class BolaReceiveMessage : MonoBehaviour {
         state = BolaStates.Idle;
 
         var temp = GameObject.Find("Field" + tag);
-        WRight = temp.transform.position.x + (temp.transform.localScale.x / 2);
-        WLeft = temp.transform.position.x - (temp.transform.localScale.x / 2);
+        WRight = temp.transform.position.x + (temp.transform.localScale.x / 2) - 1.2f;
+        WLeft = temp.transform.position.x - (temp.transform.localScale.x / 2) + 1.2f;
         WTop = temp.transform.position.y + (temp.transform.localScale.y/2) - 3.5f;
 
         renderComponent = GetComponent<Renderer>();
         MMRaqueta = RTDESKEntity.getMailBox("Raqueta" + tag);
         MMUI = RTDESKEntity.getMailBox("UI" + tag);
+        MMNPC1 = RTDESKEntity.getMailBox("Enemy" + tag + "_1");
         MMLadrillos = new List<MessageManager>();
 
         direction = new Vector3(1f, 1f, 0);
@@ -130,6 +131,11 @@ public class BolaReceiveMessage : MonoBehaviour {
                             //Update the content of the message sending and activation 
                             ActMsg.action = (int)UIActions.SetIdle;
                             Engine.SendMsg(ActMsg, gameObject, MMUI, fiveMillis);
+
+                            ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
+                            //Update the content of the message sending and activation 
+                            ActMsg.action = (int)NPC1_FSM_Actions.SetIdle;
+                            Engine.SendMsg(ActMsg, gameObject, MMNPC1, fiveMillis);
 
                             Action ActMsgtoUILoseLife = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                             //Update the content of the message sending and activation 

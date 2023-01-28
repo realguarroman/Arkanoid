@@ -9,7 +9,7 @@ public static class Tags
 	public enum StateTags
 	{
 		NULL,
-		INIT,
+		START,
 		MOVING,
 		LAYING_BRICK,
 		DEAD
@@ -19,35 +19,37 @@ public static class Tags
 	public enum TransitionTags
 	{
 		NULL,
-		INIT_TO_MOVING,
+		START_TO_MOVING,
 		MOVING_TO_LAYING_BRICK,
-		LAYING_BRICK_TO_MOVING,
 		MOVING_TO_DEAD,
-		LAYING_BRICK_TO_DEAD
+		LAYING_BRICK_TO_MOVING,
+		LAYING_BRICK_TO_DEAD,
+		MOVING_TO_START,
+		LAYING_BRICK_TO_START
 	}
 
 	//EVENT TAGS
 	public enum EventTags
 	{
 		NULL,
-		PLAY,
-		LAY_BRICK_E,
-		MOVE_E,
-		KILL_E,
-		RESPAWN_E
+		PLAY_EVENT,
+		LAY_BRICK_EVENT,
+		MOVE_EVENT,
+		KILL_EVENT,
+		RESPAWN_EVENT,
+		IDLE_EVENT
 	}
 
 	//ACTION TAGS
 	public enum ActionTags
 	{
 		NULL,
+		HIDE,
+		SHOW,
 		START_MOVING,
 		MOVE,
 		LAY_BRICK,
-		FINISH_LAYING_BRICK,
-		CHECK_RESPAWN,
-		KILL,
-		RESPAW
+		KILL
 	}
 
 	// <summary>

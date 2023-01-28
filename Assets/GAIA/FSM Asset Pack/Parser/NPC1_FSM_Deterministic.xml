@@ -7,10 +7,10 @@
 		<Callback>EventsTrigger</Callback>
 		<States>
 			<State Initial="YES">
-				<S_Name>INIT</S_Name>
+				<S_Name>START</S_Name>
 				<S_Action>NULL</S_Action>
-				<S_inAction>NULL</S_inAction>
-				<S_outAction>NULL</S_outAction>
+				<S_inAction>HIDE</S_inAction>
+				<S_outAction>SHOW</S_outAction>
 				<S_Fsm></S_Fsm>
 			</State>
 			<State Initial="NO">
@@ -24,27 +24,27 @@
 				<S_Name>LAYING_BRICK</S_Name>
 				<S_Action>NULL</S_Action>
 				<S_inAction>LAY_BRICK</S_inAction>
-				<S_outAction>FINISH_LAYING_BRICK</S_outAction>
+				<S_outAction>NULL</S_outAction>
 				<S_Fsm></S_Fsm>
 			</State>
 			<State Initial="NO">
 				<S_Name>DEAD</S_Name>
-				<S_Action>CHECK_RESPAWN</S_Action>
+				<S_Action>NULL</S_Action>
 				<S_inAction>KILL</S_inAction>
-				<S_outAction>RESPAW</S_outAction>
+				<S_outAction>NULL</S_outAction>
 				<S_Fsm></S_Fsm>
 			</State>
 		</States>
 		
 		<Transitions> 
 			<Transition>
-				<T_Name>INIT_TO_MOVING</T_Name>
-				<T_Origin>INIT</T_Origin>
+				<T_Name>START_TO_MOVING</T_Name>
+				<T_Origin>START</T_Origin>
 				<T_Destination>MOVING</T_Destination>
 				<T_Action>NULL</T_Action>
 				<Events>
 					<Event>
-						<ID>PLAY</ID> 
+						<ID>PLAY_EVENT</ID> 
 						<Type>BASIC</Type>
 					</Event>
 				</Events>	
@@ -56,19 +56,7 @@
 				<T_Action>NULL</T_Action>
 				<Events>
 					<Event>
-						<ID>LAY_BRICK_E</ID>
-						<Type>BASIC</Type>
-					</Event>
-				</Events>
-			</Transition>
-			<Transition>
-				<T_Name>LAYING_BRICK_TO_MOVING</T_Name>
-				<T_Origin>LAYING_BRICK</T_Origin>
-				<T_Destination>MOVING</T_Destination>
-				<T_Action>NULL</T_Action>
-				<Events>
-					<Event>
-						<ID>MOVE_E</ID>
+						<ID>LAY_BRICK_EVENT</ID>
 						<Type>BASIC</Type>
 					</Event>
 				</Events>
@@ -80,7 +68,19 @@
 				<T_Action>NULL</T_Action>
 				<Events>
 					<Event>
-						<ID>KILL_E</ID>
+						<ID>KILL_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>LAYING_BRICK_TO_MOVING</T_Name>
+				<T_Origin>LAYING_BRICK</T_Origin>
+				<T_Destination>MOVING</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>MOVE_EVENT</ID>
 						<Type>BASIC</Type>
 					</Event>
 				</Events>
@@ -92,7 +92,7 @@
 				<T_Action>NULL</T_Action>
 				<Events>
 					<Event>
-						<ID>KILL_E</ID>
+						<ID>KILL_EVENT</ID>
 						<Type>BASIC</Type>
 					</Event>
 				</Events>
@@ -104,7 +104,32 @@
 				<T_Action>NULL</T_Action>
 				<Events>
 					<Event>
-						<ID>RESPAW_E</ID>
+						<ID>RESPAWN_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+
+			<Transition>
+				<T_Name>MOVING_TO_START</T_Name>
+				<T_Origin>MOVING</T_Origin>
+				<T_Destination>START</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>IDLE_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>LAYING_BRICK_TO_START</T_Name>
+				<T_Origin>LAYING_BRICK</T_Origin>
+				<T_Destination>START</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>IDLE_EVENT</ID>
 						<Type>BASIC</Type>
 					</Event>
 				</Events>
