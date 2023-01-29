@@ -12,7 +12,8 @@ public static class Tags
 		START,
 		MOVING,
 		LAYING_BRICK,
-		DEAD
+		DEAD,
+		ATTACKING
 	}
 
 	//Transition tags
@@ -25,7 +26,10 @@ public static class Tags
 		LAYING_BRICK_TO_MOVING,
 		LAYING_BRICK_TO_DEAD,
 		MOVING_TO_START,
-		LAYING_BRICK_TO_START
+		LAYING_BRICK_TO_START,
+		MOVING_TO_ATTACKING,
+		ATTACKING_TO_MOVING,
+		ATTACKING_TO_START
 	}
 
 	//EVENT TAGS
@@ -37,7 +41,8 @@ public static class Tags
 		MOVE_EVENT,
 		KILL_EVENT,
 		RESPAWN_EVENT,
-		IDLE_EVENT
+		IDLE_EVENT,
+		ATTACK_EVENT
 	}
 
 	//ACTION TAGS
@@ -49,7 +54,8 @@ public static class Tags
 		START_MOVING,
 		MOVE,
 		LAY_BRICK,
-		KILL
+		KILL,
+		ATTACK
 	}
 
 	// <summary>

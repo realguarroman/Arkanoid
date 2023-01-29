@@ -886,8 +886,10 @@ GameObject:
   - component: {fileID: 4794762647937020425}
   - component: {fileID: 5329044651741431078}
   - component: {fileID: 660084710882862066}
-  - component: {fileID: 7117181605788495710}
   - component: {fileID: 6284809468056699100}
+  - component: {fileID: 5073244358705120570}
+  - component: {fileID: 3800947674063617404}
+  - component: {fileID: 5399855888331970813}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Untagged
@@ -999,19 +1001,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RTDESKEngineScript: {fileID: 0}
---- !u!114 &7117181605788495710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2762628300983597035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d804de5d2ad1e1444b9bce0fbcb338da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BTFileName: NPC2_BT
 --- !u!111 &6284809468056699100
 Animation:
   m_ObjectHideFlags: 0
@@ -1028,3 +1017,40 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &5073244358705120570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762628300983597035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0154d513a74d74497ad7fa88748f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3800947674063617404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762628300983597035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef9767f3a0058ea438ee4ccc5d36758c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5399855888331970813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762628300983597035}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d804de5d2ad1e1444b9bce0fbcb338da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BTFileName: NPC2_BT

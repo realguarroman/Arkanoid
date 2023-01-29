@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<FSM_Machine>
+	<FSMtype Probabilistic="NO">CLASSIC</FSMtype>
+	<FSMid>NPC2_FSMDeterministic</FSMid>
+	<Fsm>
+		<Callback>EventsTrigger</Callback>
+		<States>
+			<State Initial="YES">
+				<S_Name>START</S_Name>
+				<S_Action>NULL</S_Action>
+				<S_inAction>HIDE</S_inAction>
+				<S_outAction>SHOW</S_outAction>
+				<S_Fsm></S_Fsm>
+			</State>
+			<State Initial="NO">
+				<S_Name>MOVING</S_Name>
+				<S_Action>MOVE</S_Action>
+				<S_inAction>NULL</S_inAction>
+				<S_outAction>NULL</S_outAction>
+				<S_Fsm></S_Fsm>
+			</State>
+			<State Initial="NO">
+				<S_Name>ATTACKING</S_Name>
+				<S_Action>ATTACK</S_Action>
+				<S_inAction>NULL</S_inAction>
+				<S_outAction>NULL</S_outAction>
+				<S_Fsm></S_Fsm>
+			</State>
+		</States>
+		
+		<Transitions> 
+			<Transition>
+				<T_Name>START_TO_MOVING</T_Name>
+				<T_Origin>START</T_Origin>
+				<T_Destination>MOVING</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>PLAY_EVENT</ID> 
+						<Type>BASIC</Type>
+					</Event>
+				</Events>	
+			</Transition>
+			<Transition>
+				<T_Name>MOVING_TO_ATTACKING</T_Name>
+				<T_Origin>MOVING</T_Origin>
+				<T_Destination>ATTACKING</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>ATTACK_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>ATTACKING_TO_MOVING</T_Name>
+				<T_Origin>ATTACKING</T_Origin>
+				<T_Destination>MOVING</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>MOVE_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>MOVING_TO_START</T_Name>
+				<T_Origin>MOVING</T_Origin>
+				<T_Destination>START</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>IDLE_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+			<Transition>
+				<T_Name>ATTACKING_TO_START</T_Name>
+				<T_Origin>ATTACKING</T_Origin>
+				<T_Destination>START</T_Destination>
+				<T_Action>NULL</T_Action>
+				<Events>
+					<Event>
+						<ID>IDLE_EVENT</ID>
+						<Type>BASIC</Type>
+					</Event>
+				</Events>
+			</Transition>
+		</Transitions>
+	</Fsm>
+</FSM_Machine>

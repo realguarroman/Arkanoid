@@ -31,6 +31,29 @@ Number of errors: 0
  (Parsing of CLASSIC Machine named 'NPC1_FSMDeterministic' is INCONSISTENT)
  
 =============================================================================================
+...LOADING A CLASSIC MACHINE named 'NPC2_FSMDeterministic'
+>>ADDED STATE 'START'.
+>>ADDED STATE 'MOVING'.
+>>ADDED STATE 'ATTACKING'.
+>>ADDED TRANSITION 'START_TO_MOVING' to FSM.
+>>ADDED TRANSITION 'START_TO_MOVING' to State 'START'.
+>>ADDED TRANSITION 'MOVING_TO_ATTACKING' to FSM.
+>>ADDED TRANSITION 'MOVING_TO_ATTACKING' to State 'MOVING'.
+>>ADDED TRANSITION 'ATTACKING_TO_MOVING' to FSM.
+>>ADDED TRANSITION 'ATTACKING_TO_MOVING' to State 'ATTACKING'.
+>>ADDED TRANSITION 'MOVING_TO_START' to FSM.
+>>ADDED TRANSITION 'MOVING_TO_START' to State 'MOVING'.
+>>ADDED TRANSITION 'ATTACKING_TO_START' to FSM.
+>>ADDED TRANSITION 'ATTACKING_TO_START' to State 'ATTACKING'.
+States ADDED: 3 of 3
+States NOT ADDED: 0
+Transitions ADDED: 5 of 5
+Transitions NOT ADDED: 0
+Number of errors: 0
+>>ERROR. There is not an initial state. Check XML file
+ (Parsing of CLASSIC Machine named 'NPC2_FSMDeterministic' is INCONSISTENT)
+ 
+=============================================================================================
 ...LOADING A BT named 'NPC2_BT'
 >>ADDED TREE Root AND ITS CHILDS.
 >>ADDED TREE Move AND ITS CHILDS.
@@ -42,11 +65,11 @@ Trees Added: 4 out of 4
  
 Critical errors parsing BTs: 0
 
-LOG FILE	1/28/2023 8:29:06 PM
+LOG FILE	1/29/2023 6:05:17 AM
 --------------------------------------
 
 --------SUMMARY--------
-Number of main machines: 1
+Number of main machines: 2
 Number of submachines: 0
-TOTAL MACHINES ADDED: 1
+TOTAL MACHINES ADDED: 2
 NUMBER OF BTs ADDED: 1

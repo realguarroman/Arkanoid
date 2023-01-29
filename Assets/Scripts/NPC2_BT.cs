@@ -20,8 +20,6 @@ using UnityEngine.AI;
 using Panda;
 using GAIA;
 
-public enum NPC2_Actions { Start, SetIdle };
-
 public class NPC2_BT : MonoBehaviour {
 
     // GameObject attributes
@@ -49,15 +47,8 @@ public class NPC2_BT : MonoBehaviour {
     private GAIA_Manager manager;               // Instatiates the manager.
     public string BTFileName;                   // Choose the BT to load by txt file name.
 
-    private void Awake() {
-        //Asignar el "listener" al componente normalizado que contienen todos los objetos que pueden recibir mensajes
-        GetComponent<RTDESKEntity>().MailBox = ReceiveMessage;
-    }
-
-    private void visible(bool visibility)
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
+    private void visible(bool visibility) {
+        for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(visibility);
         }
     }
@@ -67,7 +58,6 @@ public class NPC2_BT : MonoBehaviour {
         Engine.PushMsg(Msg);
         if (Msg.Type == (int)UserMsgTypes.Action)
         {
-
             switch (((Action)Msg).action)
             {
                 case (int)NPC1_Actions.Start:
@@ -182,7 +172,7 @@ public class NPC2_BT : MonoBehaviour {
         return true;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    public void OnTriggerEnter2DFunc(Collider2D other) {
         if (other.name.StartsWith("Bola")) {
             possibility_of_persecution = false;
 
