@@ -46,11 +46,6 @@ public class NPC1_FSM : MonoBehaviour
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void addNoEvent() { FSMevents.Add((int)Tags.EventTags.NULL); }
 
-    void Awake() {
-        //Asignar el "listener" al componente normalizado que contienen todos los objetos que pueden recibir mensajes
-        GetComponent<RTDESKEntity>().MailBox = ReceiveMessage;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -123,7 +118,7 @@ public class NPC1_FSM : MonoBehaviour
         animation_comp.Play("LayingBrick");
     }
 
-    public void lbAnimFinished() {
+    public void lbAnimFinishedFunc() {
         var pos = new Vector3(
             transform.position.x,
             transform.position.y,
@@ -150,7 +145,7 @@ public class NPC1_FSM : MonoBehaviour
         animation_comp.Play("Exploding");
     }
 
-    public void expAnimFinished() {
+    public void expAnimFinishedFunc() {
         visible(false);
         stopwatch2.Start();
     }
@@ -161,7 +156,7 @@ public class NPC1_FSM : MonoBehaviour
         animation_comp.Play("Spawning");
     }
 
-    public void spawnAnimFinished() {
+    public void spawnAnimFinishedFunc() {
         FSMEnevtsQueue.Add((int)Tags.EventTags.RESPAWN_EVENT);
     }
 
@@ -202,7 +197,7 @@ public class NPC1_FSM : MonoBehaviour
         FSMevents.AddRange(FSMEnevtsQueue);
         FSMEnevtsQueue.Clear();
 
-        if (stopwatch.ElapsedMilliseconds > 5000) {
+        if (stopwatch.ElapsedMilliseconds > 3000) {
             if (colliding_with_bricks > 0) stopwatch.Restart();
             else {
                 stopwatch.Reset();
@@ -230,7 +225,7 @@ public class NPC1_FSM : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    public void OnTriggerEnter2DFunc(Collider2D other) {
         if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks++;
         }
@@ -241,7 +236,7 @@ public class NPC1_FSM : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
+    public void OnTriggerExit2DFunc(Collider2D other) {
         if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks--;
         }

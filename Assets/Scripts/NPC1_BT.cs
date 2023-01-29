@@ -21,7 +21,6 @@ using Panda;
 using GAIA;
 using System.Diagnostics;
 
-public enum NPC1_Actions { Start, SetIdle };
 public class NPC1_BT : MonoBehaviour {
 
     // GameObject attributes
@@ -54,12 +53,6 @@ public class NPC1_BT : MonoBehaviour {
     MessageManager BolaManagerMailBox;
 
     private GAIA_Manager manager;               // Instatiates the manager
-
-    private void Awake()
-    {
-        //Asignar el "listener" al componente normalizado que contienen todos los objetos que pueden recibir mensajes
-        GetComponent<RTDESKEntity>().MailBox = ReceiveMessage;
-    }
 
     // Start is called before the first frame update
     void Start() {
@@ -127,7 +120,6 @@ public class NPC1_BT : MonoBehaviour {
         }
     }
 
-
     void set_target() {
         target = new Vector3(
         Random.Range(WLeft, WRight),
@@ -170,7 +162,7 @@ public class NPC1_BT : MonoBehaviour {
         return true;
     }
 
-    public void lbAnimFinished()
+    public void lbAnimFinishedFunc()
     {
         var pos = new Vector3(
             transform.position.x,
@@ -222,11 +214,11 @@ public class NPC1_BT : MonoBehaviour {
         return false;
     }
 
-    public void spawnAnimFinished() {
+    public void spawnAnimFinishedFunc() {
         is_dead = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2DFunc(Collider2D other)
     {
         if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks++;
@@ -241,13 +233,13 @@ public class NPC1_BT : MonoBehaviour {
         }
     }
 
-    public void expAnimFinished()
+    public void expAnimFinishedFunc()
     {
         visible(false);
         stopwatch2.Start();
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
+    public void OnTriggerExit2DFunc(Collider2D other) {
         if (other.name.StartsWith("Ladrillo")) {
             colliding_with_bricks--;
         }

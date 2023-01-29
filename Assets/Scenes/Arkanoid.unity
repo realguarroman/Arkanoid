@@ -1736,11 +1736,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2402490949820314334, guid: 70336c80d3527459f8646eb8ff41419a, type: 3}
   m_PrefabInstance: {fileID: 572459480}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &613026009 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2344206201556494275, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
-  m_PrefabInstance: {fileID: 3915216263658960947}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &638065947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6352,20 +6347,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2344206201556494272, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
   m_PrefabInstance: {fileID: 3915216263658960947}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1647736287738961913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613026009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e6b9c7413aa120429cec588ce81a3e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brick_prefab: {fileID: 8637047408697167447, guid: 70336c80d3527459f8646eb8ff41419a, type: 3}
-  BTFileName: NPC1_BT
 --- !u!1001 &2323648792031932928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6595,8 +6576,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy1_1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3915216263114441527, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
 --- !u!4 &6109148188587296811 stripped
 Transform:
