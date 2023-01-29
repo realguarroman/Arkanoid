@@ -45,6 +45,7 @@ public class NPC2_BT : MonoBehaviour {
     MessageManager BolaManagerMailBox;
 
     private GAIA_Manager manager;               // Instatiates the manager.
+    public string NameFile;
 
     private void visible(bool visibility) {
         for (int i = 0; i < transform.childCount; i++) {
@@ -54,8 +55,10 @@ public class NPC2_BT : MonoBehaviour {
 
     public void OnEnable()
     {
-        can_play = true;
-        visible(true);
+        if (mycollider != null) {
+            can_play = true;
+            visible(true);
+        }
     }
 
     public void OnDisableFunc()
@@ -70,7 +73,7 @@ public class NPC2_BT : MonoBehaviour {
         manager = GAIA_Controller.INSTANCE.m_manager;
 
 #if (PANDA)
-        manager.createBT(gameObject, "NPC2_BT");
+        manager.createBT(gameObject, NameFile);
 #endif
 
         range = 0.1f;

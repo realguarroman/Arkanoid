@@ -304,9 +304,6 @@ GameObject:
   - component: {fileID: 2882109970861525326}
   - component: {fileID: 779150481813329151}
   - component: {fileID: 2145826656271864508}
-  - component: {fileID: 5101969683737361635}
-  - component: {fileID: 3915216263114441527}
-  - component: {fileID: 9059308187036974172}
   m_Layer: 0
   m_Name: Enemy1Scripts
   m_TagString: 1
@@ -411,41 +408,3 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &5101969683737361635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344206201556494275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76d3ef499178e1645b280c0a6cd280a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3915216263114441527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344206201556494275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34e4e6549b544d14d84f527fd4a9f188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brick_prefab: {fileID: 8637047408697167447, guid: 70336c80d3527459f8646eb8ff41419a, type: 3}
---- !u!114 &9059308187036974172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344206201556494275}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e6b9c7413aa120429cec588ce81a3e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brick_prefab: {fileID: 8637047408697167447, guid: 70336c80d3527459f8646eb8ff41419a, type: 3}

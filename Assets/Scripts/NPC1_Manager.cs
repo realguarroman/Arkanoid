@@ -104,20 +104,14 @@ namespace Assets.Scripts
             AssignColor();
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.X))
-            {
+        void Update() {
+            if (Input.GetKeyDown(KeyCode.X) && !FSM.enabled)
                 ActivateFSM();
-            }
-            else if (Input.GetKeyDown(KeyCode.B))
-            {
+            else if (Input.GetKeyDown(KeyCode.B) && !BT.enabled)
                 ActivateBT();
-            }
         }
 
-        public void ReceiveMessage(MsgContent Msg)
-        {
+        public void ReceiveMessage(MsgContent Msg) {
             Engine.PushMsg(Msg);
             if (Msg.Type == (int)UserMsgTypes.Action)
             {

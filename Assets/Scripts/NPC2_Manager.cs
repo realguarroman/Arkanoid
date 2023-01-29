@@ -87,16 +87,13 @@ namespace Assets.Scripts
 
             // Update is called once per frame
         void Update() {
-            if (Input.GetKeyDown(KeyCode.X)) {
+            if (Input.GetKeyDown(KeyCode.X) && !FSM.enabled)
                 ActivateFSM();
-            }
-            else if (Input.GetKeyDown(KeyCode.B)) {
+            else if (Input.GetKeyDown(KeyCode.B) && !BT.enabled)
                 ActivateBT();
-            }
         }
 
-        public void ReceiveMessage(MsgContent Msg)
-        {
+        public void ReceiveMessage(MsgContent Msg) {
             Engine.PushMsg(Msg);
             if (Msg.Type == (int)UserMsgTypes.Action)
             {

@@ -48,13 +48,14 @@ public class NPC1_BT : MonoBehaviour {
     bool not_laying_brick;
 
     private GAIA_Manager manager;               // Instatiates the manager
+    public string NameFile;
 
     // Start is called before the first frame update
     void Start() {
         manager = GAIA_Controller.INSTANCE.m_manager;
 
 #if (PANDA)
-        manager.createBT(gameObject, "NPC1_BT");
+        manager.createBT(gameObject, NameFile);
 #endif
 
         range = 0.1f;
@@ -90,9 +91,11 @@ public class NPC1_BT : MonoBehaviour {
     }
 
     public void OnEnable() {
-        stopwatch.Restart();
-        can_play = true;
-        visible(true);
+        if (stopwatch != null) {
+            stopwatch.Restart();
+            can_play = true;
+            visible(true);
+        }
     }
 
     public void OnDisableFunc() {

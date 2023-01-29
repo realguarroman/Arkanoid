@@ -207,9 +207,6 @@ GameObject:
   - component: {fileID: 8020062781743713657}
   - component: {fileID: 4783854249957429448}
   - component: {fileID: 6157602517612779147}
-  - component: {fileID: 9144021754924336990}
-  - component: {fileID: 9144021754924336991}
-  - component: {fileID: 9144021754924336988}
   m_Layer: 0
   m_Name: Enemy2Scripts
   m_TagString: Untagged
@@ -314,43 +311,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &9144021754924336990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7510869734832776180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d0154d513a74d74497ad7fa88748f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9144021754924336991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7510869734832776180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9767f3a0058ea438ee4ccc5d36758c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9144021754924336988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7510869734832776180}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d804de5d2ad1e1444b9bce0fbcb338da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BTFileName: 
 --- !u!1 &7510869734886192291
 GameObject:
   m_ObjectHideFlags: 0

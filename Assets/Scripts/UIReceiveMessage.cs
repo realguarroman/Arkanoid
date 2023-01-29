@@ -110,13 +110,13 @@ public class UIReceiveMessage : MonoBehaviour {
                 //Get a new message to activate a new action in the object
                 ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
-                ActMsg.action = (int)NPC1_Actions.Start;
+                ActMsg.action = (int)NPC_Actions.Start;
                 Engine.SendMsg(ActMsg, gameObject, NPC1ManagerMailBox, fiveMillis);
 
                 //Get a new message to activate a new action in the object
                 ActMsg = (Action)Engine.PopMsg((int)UserMsgTypes.Action);
                 //Update the content of the message sending and activation 
-                ActMsg.action = (int)NPC2_Actions.Start;
+                ActMsg.action = (int)NPC_Actions.Start;
                 Engine.SendMsg(ActMsg, gameObject, NPC2ManagerMailBox, fiveMillis);
             }
 
