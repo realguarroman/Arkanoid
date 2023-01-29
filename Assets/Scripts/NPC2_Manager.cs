@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum NPC2_Actions { Start, SetIdle };
@@ -7,6 +8,23 @@ namespace Assets.Scripts
 {
     public class NPC2_Manager : MonoBehaviour
     {
+        List<List<Color>> colors = new List<List<Color>> {
+            new List<Color>{ Color.red, Color.cyan, Color.green },
+            new List<Color>{ Color.black, Color.green, Color.blue },
+            new List<Color>{ Color.yellow, Color.gray, Color.magenta }
+        };
+
+        int current_color_index;
+
+        private void AssignColor() {
+            gameObject.transform.Find("Sphere1").GetComponent<Renderer>().material.color
+                = colors[current_color_index][0];
+            gameObject.transform.Find("Sphere2").GetComponent<Renderer>().material.color
+                = colors[current_color_index][1];
+            gameObject.transform.Find("Sphere3").GetComponent<Renderer>().material.color
+                = colors[current_color_index][2];
+        }
+
         public delegate void OnTrigger2DFunc(Collider2D MC);
         public delegate void VoidFunc();
 
@@ -30,6 +48,8 @@ namespace Assets.Scripts
             if (!FSM.enabled) FSM.enabled = true;
 
             currentComp = FSM;
+            current_color_index = 0;
+            AssignColor();
 
             currentDisable = FSM.OnDisableFunc;
             currentOTEnter = FSM.OnTriggerEnter2DFunc;
@@ -40,6 +60,8 @@ namespace Assets.Scripts
             if (!BT.enabled) BT.enabled = true;
 
             currentComp = BT;
+            current_color_index = 1;
+            AssignColor();
 
             currentDisable = BT.OnDisableFunc;
             currentOTEnter = BT.OnTriggerEnter2DFunc;
@@ -59,6 +81,8 @@ namespace Assets.Scripts
             currentOTEnter = FSM.OnTriggerEnter2DFunc;
 
             if (BT.enabled) BT.OnDisableFunc();
+            current_color_index = 0;
+            AssignColor();
         }
 
             // Update is called once per frame
