@@ -208,7 +208,7 @@ public class NPC2_FSM : MonoBehaviour
                 TMsg.V3 = new Vector3(-1f, -1f, 1f);
 
             Engine.SendMsg(TMsg, gameObject, BolaManagerMailBox, fiveMillis);
-            FSMevents.Add((int)Tags.EventTags.MOVE_EVENT);
+            FSMEnevtsQueue.Add((int)Tags.EventTags.MOVE_EVENT);
         }
     }
 }

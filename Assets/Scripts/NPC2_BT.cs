@@ -45,7 +45,6 @@ public class NPC2_BT : MonoBehaviour {
     MessageManager BolaManagerMailBox;
 
     private GAIA_Manager manager;               // Instatiates the manager.
-    public string BTFileName;                   // Choose the BT to load by txt file name.
 
     private void visible(bool visibility) {
         for (int i = 0; i < transform.childCount; i++) {
@@ -77,7 +76,7 @@ public class NPC2_BT : MonoBehaviour {
         manager = GAIA_Controller.INSTANCE.m_manager;
 
 #if (PANDA)
-        manager.createBT(gameObject, BTFileName);
+        manager.createBT(gameObject, "NPC2_BT");
 #endif
 
         range = 0.1f;

@@ -12,8 +12,6 @@ using GAIA;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-public enum NPC1_Actions { Start, SetIdle };
-
 public class NPC1_FSM : MonoBehaviour
 {
     // GameObject attributes

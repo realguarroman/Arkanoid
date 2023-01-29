@@ -54,6 +54,20 @@ Number of errors: 0
  (Parsing of CLASSIC Machine named 'NPC2_FSMDeterministic' is INCONSISTENT)
  
 =============================================================================================
+...LOADING A BT named 'NPC1_BT'
+>>ADDED TREE Root AND ITS CHILDS.
+>>ADDED TREE Play AND ITS CHILDS.
+>>ADDED TREE CheckLayingBrick AND ITS CHILDS.
+>>ADDED TREE Movements AND ITS CHILDS.
+Trees Added: 4 out of 4
+
+(Parsing of BT named "NPC1_BT" is OK!)
+ 
+Critical errors parsing BTs: 0
+
+
+ 
+=============================================================================================
 ...LOADING A BT named 'NPC2_BT'
 >>ADDED TREE Root AND ITS CHILDS.
 >>ADDED TREE Move AND ITS CHILDS.
@@ -65,11 +79,11 @@ Trees Added: 4 out of 4
  
 Critical errors parsing BTs: 0
 
-LOG FILE	1/29/2023 6:05:17 AM
+LOG FILE	1/29/2023 8:20:01 AM
 --------------------------------------
 
 --------SUMMARY--------
 Number of main machines: 2
 Number of submachines: 0
 TOTAL MACHINES ADDED: 2
-NUMBER OF BTs ADDED: 1
+NUMBER OF BTs ADDED: 2
