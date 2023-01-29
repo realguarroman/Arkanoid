@@ -75,25 +75,22 @@ public class NPC2_FSM : MonoBehaviour
         Engine = engine.GetComponent<RTDESKEngine>();
 
         fiveMillis = Engine.ms2Ticks(5);
-        set_target();
 
         GetComponent<Animation>().Play("EnemyRotation");
+        set_target();
+        visible(false);
+        hide();
     }
 
-    public void ReceiveMessage(MsgContent Msg) {
-        Engine.PushMsg(Msg);
-        if (Msg.Type == (int)UserMsgTypes.Action) {
-
-            switch (((Action)Msg).action) {
-                case (int)NPC1_Actions.Start:
-                    FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
-                    break;
-                case (int)NPC1_Actions.SetIdle:
-                    FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
-                    break;
-            }            
-        }
+    public void OnEnable() {
+        FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
     }
+
+    public void OnDisableFunc() {
+        visible(false);
+        FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
+    }
+
     void set_target() {
         target = new Vector3(
             Random.Range(WLeft, WRight), 
@@ -123,7 +120,7 @@ public class NPC2_FSM : MonoBehaviour
     }
 
     private void hide() {
-        visible(false);
+        enabled = false;
     }
 
     private void show() {

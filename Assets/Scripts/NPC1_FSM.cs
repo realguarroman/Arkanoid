@@ -41,8 +41,6 @@ public class NPC1_FSM : MonoBehaviour
     private List<int> FSMevents = new List<int>();                // Variable que contiene los eventos.
     private List<int> FSMEnevtsQueue = new List<int>();
 
-    RTDESKEngine Engine;
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void addNoEvent() { FSMevents.Add((int)Tags.EventTags.NULL); }
 
@@ -69,27 +67,21 @@ public class NPC1_FSM : MonoBehaviour
         stopwatch = new Stopwatch();
         stopwatch2 = new Stopwatch();
 
-        GameObject engine = GameObject.Find(RTDESKEngine.Name);
-        Engine = engine.GetComponent<RTDESKEngine>();
-
         animation_comp = GetComponent<Animation>();
+        set_target();
+        visible(false);
+        hide();
     }
 
-    public void ReceiveMessage(MsgContent Msg) {
-        Engine.PushMsg(Msg);
-        if (Msg.Type == (int)UserMsgTypes.Action) {
-
-            switch (((Action)Msg).action) {
-                case (int)NPC1_Actions.Start:
-                    FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
-                    break;
-                case (int)NPC1_Actions.SetIdle:
-                    Debug.Log("IDLE");
-                    FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
-                    break;
-            }            
-        }
+    public void OnEnable() {
+        FSMEnevtsQueue.Add((int)Tags.EventTags.PLAY_EVENT);
     }
+
+    public void OnDisableFunc() {
+        visible(false);
+        FSMEnevtsQueue.Add((int)Tags.EventTags.IDLE_EVENT);
+    }
+
     void set_target() {
         target = new Vector3(
             Random.Range(WLeft, WRight), 
@@ -161,7 +153,7 @@ public class NPC1_FSM : MonoBehaviour
     }
 
     private void hide() {
-        visible(false);
+        enabled = false;
     }
 
     private void show() {

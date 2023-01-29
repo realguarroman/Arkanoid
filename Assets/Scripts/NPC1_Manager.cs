@@ -7,20 +7,23 @@ namespace Assets.Scripts
 {
     public class NPC1_Manager : MonoBehaviour
     {
-        public delegate void MessageManagerFunc(MsgContent MC);
         public delegate void OnTrigger2DFunc(Collider2D MC);
-        public delegate void AnimFunc();
+        public delegate void VoidFunc();
 
-        MessageManagerFunc currentMM;
+        VoidFunc currentDisable;
         OnTrigger2DFunc currentOTEnter;
         OnTrigger2DFunc currentOTExit;
 
-        AnimFunc currentlbAnimFinished;
-        AnimFunc currentexpAnimFinished;
-        AnimFunc currentspawnAnimFinished;
+        VoidFunc currentlbAnimFinished;
+        VoidFunc currentexpAnimFinished;
+        VoidFunc currentspawnAnimFinished;
+
+        Behaviour currentComp;
 
         NPC1_FSM FSM;
         NPC1_BT BT;
+
+        RTDESKEngine Engine;
 
         private void Awake() {
             //Asignar el "listener" al componente normalizado que contienen todos los objetos que pueden recibir mensajes
@@ -28,10 +31,12 @@ namespace Assets.Scripts
         }
 
         private void ActivateFSM() {
-            BT.enabled = false;
-            FSM.enabled = true;
+            if (BT.enabled) BT.OnDisableFunc();
+            if (!FSM.enabled) FSM.enabled = true;
 
-            currentMM = FSM.ReceiveMessage;
+            currentComp = FSM;
+
+            currentDisable = FSM.OnDisableFunc;
             currentOTEnter = FSM.OnTriggerEnter2DFunc;
             currentOTExit = FSM.OnTriggerExit2DFunc;
 
@@ -41,10 +46,12 @@ namespace Assets.Scripts
         }
 
         private void ActivateBT() {
-            BT.enabled = true;
-            FSM.enabled = false;
+            if (FSM.enabled) FSM.OnDisableFunc();
+            if (!BT.enabled) BT.enabled = true;
 
-            currentMM = BT.ReceiveMessage;
+            currentComp = BT;
+
+            currentDisable = BT.OnDisableFunc;
             currentOTEnter = BT.OnTriggerEnter2DFunc;
             currentOTExit = BT.OnTriggerExit2DFunc;
 
@@ -55,10 +62,23 @@ namespace Assets.Scripts
 
         // Use this for initialization
         void Start() {
+            GameObject engine = GameObject.Find(RTDESKEngine.Name);
+            Engine = engine.GetComponent<RTDESKEngine>();
+
             FSM = GetComponent<NPC1_FSM>();
             BT = GetComponent<NPC1_BT>();
 
-            ActivateFSM();
+            currentComp = FSM;
+
+            currentDisable = FSM.OnDisableFunc;
+            currentOTEnter = FSM.OnTriggerEnter2DFunc;
+            currentOTExit = FSM.OnTriggerExit2DFunc;
+
+            currentexpAnimFinished = FSM.expAnimFinishedFunc;
+            currentlbAnimFinished = FSM.lbAnimFinishedFunc;
+            currentspawnAnimFinished = FSM.spawnAnimFinishedFunc;
+
+            if (BT.enabled) BT.OnDisableFunc();
         }
 
         void Update()
@@ -72,8 +92,23 @@ namespace Assets.Scripts
                 ActivateBT();
             }
         }
-        public void ReceiveMessage(MsgContent Msg) {
-            currentMM(Msg);
+
+        public void ReceiveMessage(MsgContent Msg)
+        {
+            Engine.PushMsg(Msg);
+            if (Msg.Type == (int)UserMsgTypes.Action)
+            {
+
+                switch (((Action)Msg).action)
+                {
+                    case (int)NPC1_Actions.Start:
+                        currentComp.enabled = true;
+                        break;
+                    case (int)NPC1_Actions.SetIdle:
+                        currentDisable();
+                        break;
+                }
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other) {

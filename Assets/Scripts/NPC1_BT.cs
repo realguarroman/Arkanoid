@@ -47,11 +47,6 @@ public class NPC1_BT : MonoBehaviour {
     bool is_dead;
     bool not_laying_brick;
 
-    private BoxCollider2D mycollider;
-
-    RTDESKEngine Engine;
-    MessageManager BolaManagerMailBox;
-
     private GAIA_Manager manager;               // Instatiates the manager
 
     // Start is called before the first frame update
@@ -77,8 +72,6 @@ public class NPC1_BT : MonoBehaviour {
         WTop = temp.transform.position.y + (temp.transform.localScale.y / 2) - 4f;
         WBottom = temp.transform.position.y - (temp.transform.localScale.y / 5);
 
-        mycollider = gameObject.GetComponent<BoxCollider2D>();
-
         set_target();
         visible(false);
 
@@ -86,10 +79,6 @@ public class NPC1_BT : MonoBehaviour {
 
         stopwatch = new Stopwatch();
         stopwatch2 = new Stopwatch();
-
-        GameObject engine = GameObject.Find(RTDESKEngine.Name);
-        Engine = engine.GetComponent<RTDESKEngine>();
-        BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
 
         animation_comp = GetComponent<Animation>();
     }
@@ -100,24 +89,16 @@ public class NPC1_BT : MonoBehaviour {
         }
     }
 
-    public void ReceiveMessage(MsgContent Msg)
-    {
-        Engine.PushMsg(Msg);
-        if (Msg.Type == (int)UserMsgTypes.Action)
-        {
-            switch (((Action)Msg).action)
-            {
-                case (int)NPC1_Actions.Start:
-                    stopwatch.Restart();
-                    can_play = true;
-                    visible(true);
-                    break;
-                case (int)NPC1_Actions.SetIdle:
-                    can_play = false;
-                    visible(false);
-                    break;
-            }
-        }
+    public void OnEnable() {
+        stopwatch.Restart();
+        can_play = true;
+        visible(true);
+    }
+
+    public void OnDisableFunc() {
+        can_play = false;
+        visible(false);
+        enabled = false;
     }
 
     void set_target() {

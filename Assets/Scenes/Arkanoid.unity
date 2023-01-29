@@ -6576,6 +6576,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy1_1
       objectReference: {fileID: 0}
+    - target: {fileID: 9059308187036974172, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5d9d6a480de706449db95edebffdfed, type: 3}
 --- !u!4 &6109148188587296811 stripped
@@ -6924,6 +6928,10 @@ PrefabInstance:
     - target: {fileID: 7510869734832776183, guid: c6c4a74e069e4874bb799283e040bf7e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -146.89781
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144021754924336988, guid: c6c4a74e069e4874bb799283e040bf7e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9144021754924336988, guid: c6c4a74e069e4874bb799283e040bf7e, type: 3}
       propertyPath: BTFileName

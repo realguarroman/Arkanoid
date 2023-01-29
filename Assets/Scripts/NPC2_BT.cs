@@ -52,23 +52,17 @@ public class NPC2_BT : MonoBehaviour {
         }
     }
 
-    public void ReceiveMessage(MsgContent Msg)
+    public void OnEnable()
     {
-        Engine.PushMsg(Msg);
-        if (Msg.Type == (int)UserMsgTypes.Action)
-        {
-            switch (((Action)Msg).action)
-            {
-                case (int)NPC1_Actions.Start:
-                    can_play = true;
-                    visible(true);
-                    break;
-                case (int)NPC1_Actions.SetIdle:
-                    can_play = false;
-                    visible(false);
-                    break;
-            }
-        }
+        can_play = true;
+        visible(true);
+    }
+
+    public void OnDisableFunc()
+    {
+        can_play = false;
+        visible(false);
+        enabled = false;
     }
 
     // Start is called before the first frame update
