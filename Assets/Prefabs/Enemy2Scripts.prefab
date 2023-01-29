@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 8020062781743713657}
   - component: {fileID: 4783854249957429448}
   - component: {fileID: 6157602517612779147}
+  - component: {fileID: 7789830981862645426}
   m_Layer: 0
   m_Name: Enemy2Scripts
   m_TagString: Untagged
@@ -311,6 +312,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7789830981862645426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7510869734832776180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58ab750625c7524fbe3de9dca08720f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy_Type: 1
 --- !u!1 &7510869734886192291
 GameObject:
   m_ObjectHideFlags: 0

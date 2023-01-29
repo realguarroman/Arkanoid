@@ -74,7 +74,6 @@ public class NPC1_BT : MonoBehaviour {
         WBottom = temp.transform.position.y - (temp.transform.localScale.y / 5);
 
         set_target();
-        visible(false);
 
         ladrillos_set = GameObject.Find("Ladrillos" + tag);
 

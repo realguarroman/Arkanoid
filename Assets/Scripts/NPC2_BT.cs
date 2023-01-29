@@ -55,10 +55,8 @@ public class NPC2_BT : MonoBehaviour {
 
     public void OnEnable()
     {
-        if (mycollider != null) {
-            can_play = true;
-            visible(true);
-        }
+        can_play = true;
+        visible(true);
     }
 
     public void OnDisableFunc()
@@ -98,7 +96,6 @@ public class NPC2_BT : MonoBehaviour {
         BolaManagerMailBox = RTDESKEntity.getMailBox("Bola" + tag);
 
         fiveMillis = Engine.ms2Ticks(5);
-        visible(false);
 
         GetComponent<Animation>().Play();
     }

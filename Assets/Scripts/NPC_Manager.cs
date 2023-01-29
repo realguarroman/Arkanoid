@@ -90,6 +90,7 @@ namespace Assets.Scripts
 
         private void ActivateFSM2()
         {
+            if (Script2.enabled) Script2.OnDisableFunc();
             if (BT2.enabled) BT2.OnDisableFunc();
             if (!FSM2.enabled) FSM2.enabled = true;
 
@@ -129,6 +130,7 @@ namespace Assets.Scripts
 
         private void ActivateBT2()
         {
+            if (Script2.enabled) Script2.OnDisableFunc();
             if (FSM2.enabled) FSM2.OnDisableFunc();
             if (!BT2.enabled) BT2.enabled = true;
 
@@ -259,14 +261,11 @@ namespace Assets.Scripts
                 }
             }
 
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                if (Enemy_Type == EnemyType.Type1)
-                {
+            else if (Input.GetKeyDown(KeyCode.S)) {
+                if (Enemy_Type == EnemyType.Type1) {
                     if (!Script1.enabled) ActivateScript1();
                 }
-                else if (Enemy_Type == EnemyType.Type2)
-                {
+                else if (Enemy_Type == EnemyType.Type2) {
                     if (!Script2.enabled) ActivateScript2();
                 }
             }
