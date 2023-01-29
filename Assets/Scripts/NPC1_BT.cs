@@ -83,7 +83,7 @@ public class NPC1_BT : MonoBehaviour {
         animation_comp = GetComponent<Animation>();
     }
 
-    private void visible(bool visibility) {
+    public void visible(bool visibility) {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(visibility);
         }

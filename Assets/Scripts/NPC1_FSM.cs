@@ -126,7 +126,7 @@ public class NPC1_FSM : MonoBehaviour
         FSMEnevtsQueue.Add((int)Tags.EventTags.MOVE_EVENT);
     }
 
-    private void visible(bool visibility) {
+    public void visible(bool visibility) {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(visibility);
         }

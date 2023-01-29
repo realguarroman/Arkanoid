@@ -47,7 +47,7 @@ public class NPC2_BT : MonoBehaviour {
     private GAIA_Manager manager;               // Instatiates the manager.
     public string NameFile;
 
-    private void visible(bool visibility) {
+    public void visible(bool visibility) {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(visibility);
         }

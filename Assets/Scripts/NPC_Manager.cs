@@ -10,6 +10,8 @@ namespace Assets.Scripts
     {
         public EnemyType Enemy_Type;
 
+        public GameObject ladrillopref;
+
         List<List<Color>> colors1 = new List<List<Color>> {
             new List<Color>{ Color.blue, Color.magenta, Color.yellow },
             new List<Color>{ Color.green, Color.yellow, Color.white },
@@ -232,6 +234,100 @@ namespace Assets.Scripts
             AssignColor();
         }
 
+        private void InitialBT()
+        {
+            if (Enemy_Type == EnemyType.Type1)
+            {
+                FSM1 = GetComponent<NPC1_FSM>();
+                BT1 = GetComponent<NPC1_BT>();
+                Script1 = GetComponent<NPC1_Script>();
+
+                currentComp = BT1;
+
+                currentDisable = BT1.OnDisableFunc;
+                currentOTEnter = BT1.OnTriggerEnter2DFunc;
+                currentOTExit = BT1.OnTriggerExit2DFunc;
+
+                currentexpAnimFinished = BT1.expAnimFinishedFunc;
+                currentlbAnimFinished = BT1.lbAnimFinishedFunc;
+                currentspawnAnimFinished = BT1.spawnAnimFinishedFunc;
+
+                if (Script1.enabled) Script1.OnDisableFunc();
+                if (FSM1.enabled) FSM1.OnDisableFunc();
+                colors = colors1;
+            }
+            else
+            {
+                FSM2 = GetComponent<NPC2_FSM>();
+                BT2 = GetComponent<NPC2_BT>();
+                Script2 = GetComponent<NPC2_Script>();
+
+                currentComp = BT2;
+
+                currentDisable = BT2.OnDisableFunc;
+                currentOTEnter = BT2.OnTriggerEnter2DFunc;
+                currentOTExit = emptyFuncColl;
+
+                currentexpAnimFinished = emptyFunc;
+                currentlbAnimFinished = emptyFunc;
+                currentspawnAnimFinished = emptyFunc;
+
+                if (Script2.enabled) Script2.OnDisableFunc();
+                if (FSM2.enabled) FSM2.OnDisableFunc();
+                colors = colors2;
+            }
+
+            current_color_index = 1;
+            AssignColor();
+        }
+
+        private void InitialScript()
+        {
+            if (Enemy_Type == EnemyType.Type1)
+            {
+                FSM1 = GetComponent<NPC1_FSM>();
+                BT1 = GetComponent<NPC1_BT>();
+                Script1 = GetComponent<NPC1_Script>();
+
+                currentComp = Script1;
+
+                currentDisable = Script1.OnDisableFunc;
+                currentOTEnter = Script1.OnTriggerEnter2DFunc;
+                currentOTExit = Script1.OnTriggerExit2DFunc;
+
+                currentexpAnimFinished = Script1.expAnimFinishedFunc;
+                currentlbAnimFinished = Script1.lbAnimFinishedFunc;
+                currentspawnAnimFinished = Script1.spawnAnimFinishedFunc;
+
+                if (BT1.enabled) BT1.OnDisableFunc();
+                if (FSM1.enabled) FSM1.OnDisableFunc();
+                colors = colors1;
+            }
+            else
+            {
+                FSM2 = GetComponent<NPC2_FSM>();
+                BT2 = GetComponent<NPC2_BT>();
+                Script2 = GetComponent<NPC2_Script>();
+
+                currentComp = Script2;
+
+                currentDisable = Script2.OnDisableFunc;
+                currentOTEnter = Script2.OnTriggerEnter2DFunc;
+                currentOTExit = emptyFuncColl;
+
+                currentexpAnimFinished = emptyFunc;
+                currentlbAnimFinished = emptyFunc;
+                currentspawnAnimFinished = emptyFunc;
+
+                if (BT2.enabled) BT2.OnDisableFunc();
+                if (FSM2.enabled) FSM2.OnDisableFunc();
+                colors = colors2;
+            }
+
+            current_color_index = 2;
+            AssignColor();
+        }
+
         // Use this for initialization
         void Start()
         {
@@ -240,6 +336,7 @@ namespace Assets.Scripts
 
             InitialFSM();
         }
+
 
         void Update()
         {
@@ -270,15 +367,40 @@ namespace Assets.Scripts
                 }
             }
 
-            //else if (Input.GetKeyDown(KeyCode.C)) {
-            //    if (Enemy_Type == EnemyType.Type1) {
-            //        Enemy_Type = EnemyType.Type2;
-            //    }
-            //    else {
-            //        Enemy_Type = EnemyType.Type1;
-            //    }
-            //    InitialFSM();
-            //}
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (Enemy_Type == EnemyType.Type1)
+                {
+                    Enemy_Type = EnemyType.Type2;
+                    Destroy(FSM1);
+                    Destroy(BT1);
+                    Destroy(Script1);
+
+                    gameObject.AddComponent<NPC2_FSM>();
+                    var temp_bt = gameObject.AddComponent<NPC2_BT>();
+                    temp_bt.NameFile = "NPC2_BT";
+                    gameObject.AddComponent<NPC2_Script>();
+                }
+                else
+                {
+                    Enemy_Type = EnemyType.Type1;
+                    Destroy(FSM2);
+                    Destroy(BT2);
+                    Destroy(Script2);
+
+                    var temp_fsm = gameObject.AddComponent<NPC1_FSM>();
+                    temp_fsm.brick_prefab = ladrillopref;
+                    var temp_bt = gameObject.AddComponent<NPC1_BT>();
+                    temp_bt.brick_prefab = ladrillopref;
+                    temp_bt.NameFile = "NPC1_BT";
+                    var temp_script = gameObject.AddComponent<NPC1_Script>();
+                    temp_script.brick_prefab = ladrillopref;
+                }
+
+                if (current_color_index == 0) InitialFSM();
+                else if (current_color_index == 1) InitialBT();
+                else InitialScript();
+            }
         }
 
         public void ReceiveMessage(MsgContent Msg)

@@ -83,7 +83,7 @@ namespace Assets.Scripts
             transform.position.z);
         }
 
-        private void visible(bool visibility)
+        public void visible(bool visibility)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
