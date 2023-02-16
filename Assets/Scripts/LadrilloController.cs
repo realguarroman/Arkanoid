@@ -4,11 +4,13 @@ public class LadrilloController : NetworkBehaviour
 {
     NetworkCharacterControllerPrototype bolaNetwork;
     BolaController bolaController;
+    ScoreController score;
 
     private void Awake() {
         var bola = GameObject.Find("Bola(Clone)");
         bolaNetwork = bola.GetComponent<NetworkCharacterControllerPrototype>();
         bolaController = bola.GetComponent<BolaController>();
+        score = GameObject.Find("Score(Clone)").GetComponent<ScoreController>();
     }
 
     public override void FixedUpdateNetwork()
@@ -34,17 +36,18 @@ public class LadrilloController : NetworkBehaviour
         float DeltaY = CircleY - NearestY;
         bool intersection = (DeltaX * DeltaX + DeltaY * DeltaY) < (CircleRadius * CircleRadius);
 
-        if (intersection)
-        {
+        if (intersection) {
+
             if (NearestX == CircleX)
-                bolaController.directionY = -bolaController.directionY;
+                bolaController.ChangeDirectionY();
             else if (NearestY == CircleY)
-                bolaController.directionX = -bolaController.directionX;
+                bolaController.ChangeDirectionX();
             else {
-                bolaController.directionX = -bolaController.directionX;
-                bolaController.directionY = -bolaController.directionY;
+                bolaController.ChangeDirectionX();
+                bolaController.ChangeDirectionY();
             }
 
+            score.IncreaseScore();
             Runner.Despawn(gameObject.GetComponent<NetworkObject>());
         }
     }

@@ -6,6 +6,9 @@ public class BolaController : NetworkBehaviour
 
     private NetworkCharacterControllerPrototype _cc;
 
+    ComManager managerAll;
+    LivesController lives;
+
     private float LWall;
     private float RWall;
     private float TWall;
@@ -24,6 +27,9 @@ public class BolaController : NetworkBehaviour
     {
         _cc = GetComponent<NetworkCharacterControllerPrototype>();
 
+        managerAll = GameObject.Find("ComManager").GetComponent<ComManager>();
+        lives = GameObject.Find("Lives(Clone)").GetComponent<LivesController>();
+
         var fieldTransf = GameObject.Find("Field").transform;
         var fieldScaleX = fieldTransf.localScale.x / 2;
         var fieldScaleY = fieldTransf.localScale.y / 2;
@@ -34,6 +40,22 @@ public class BolaController : NetworkBehaviour
         RWall = fieldPositionX + fieldScaleX;
         BWall = fieldPositionY - fieldScaleY;
         TWall = fieldPositionY + fieldScaleY;
+    }
+
+    public void ChangeDirectionX() {
+        directionX = -directionX;
+    }
+
+    public void ChangeDirectionY(){
+        directionY = -directionY;
+    }
+
+    public void SetIdle(Vector3 pos) {
+        directionX = 1; directionY = 1;
+        state = (int)BolaStates.Idle;
+
+        pos.y += 1;
+        _cc.TeleportToPosition(pos);
     }
 
     public override void FixedUpdateNetwork()
@@ -49,9 +71,22 @@ public class BolaController : NetworkBehaviour
             var currentPos = _cc.ReadPosition();
 
             if (currentPos.y + transform.localScale.y / 2f >= TWall ||
-                currentPos.y - transform.localScale.y / 2f <= BWall)
-            {
-                directionX = 0; directionY = 0;
+                currentPos.y - transform.localScale.y / 2f <= BWall) {
+                lives.ReduceLives();
+                Vector3 pos = _cc.ReadPosition();
+
+                if (managerAll.host != null) {
+                    pos = managerAll.host.Value.Value
+                        .gameObject.GetComponent<RaquetaController>()
+                        .SetIdle();
+                }
+                if (managerAll.client != null) {
+                    managerAll.client.Value.Value
+                        .gameObject.GetComponent<RaquetaController>()
+                        .SetIdle();
+                }
+
+                SetIdle(pos);
                 return;
             }
             if (currentPos.x + transform.localScale.x / 2f >= RWall ||

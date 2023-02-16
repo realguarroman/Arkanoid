@@ -9,6 +9,9 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _raquetaPrefab;
     [SerializeField] private NetworkPrefabRef _bolaPrefab;
+    [SerializeField] private NetworkPrefabRef _panelPrefab;
+    [SerializeField] private NetworkPrefabRef _scorePrefab;
+    [SerializeField] private NetworkPrefabRef _livesPrefab;
     [SerializeField] private List<NetworkPrefabRef> _ladrillosPrefab;
 
     float ladrillosOffsetX = -7.5f;
@@ -47,6 +50,12 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer) {
             if (host == null) {
+                runner.Spawn(_scorePrefab,
+                    new Vector3(-4, 31, -1.5f));
+
+                runner.Spawn(_livesPrefab,
+                     new Vector3(4, 31, -1.5f));
+
                 runner.Spawn(_bolaPrefab,
                     new Vector3(0, 4, -1.5f), null, player);
 

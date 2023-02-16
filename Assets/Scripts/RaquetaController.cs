@@ -4,10 +4,12 @@ public class RaquetaController : NetworkBehaviour
 {
     enum RaquetaStates { Idle, InActive, Active }
 
-    private NetworkCharacterControllerPrototype _cc;
     NetworkCharacterControllerPrototype bolaNetwork;
     BolaController bolaController;
+
     ComManager managerAll;
+
+    private NetworkCharacterControllerPrototype _cc;
     NetworkObject mynetwork;
 
     private float LWall;
@@ -38,24 +40,34 @@ public class RaquetaController : NetworkBehaviour
         RWall = fieldPosition + fieldScale - raquetaScale;
     }
 
+    public Vector3 SetIdle() {
+        state = (int)RaquetaStates.Idle;
+        directionX = 0;
+        mynetwork.AssignInputAuthority(managerAll.host.Value.Key);
+        return _cc.ReadPosition();
+    }
+
     public override void FixedUpdateNetwork()
     {
-        if (GetInput(out NetworkInputData data)) {
-            if (state == (int)RaquetaStates.Idle &&
-                data.direction.x == float.NegativeInfinity) {
-                state = (int)RaquetaStates.InActive;
+        if (state == (int)RaquetaStates.Idle &&
+            GetInput(out NetworkInputData data) &&
+            data.direction.x == float.NegativeInfinity) {
+            state = (int)RaquetaStates.InActive;
 
-                if (mynetwork == managerAll.host.Value.Value)
-                    mynetwork.AssignInputAuthority(managerAll.host.Value.Key);
-                else
-                    mynetwork.AssignInputAuthority(managerAll.client.Value.Key);
-                }
-            if (data.direction.x != float.NegativeInfinity &&
-                data.direction.x != float.PositiveInfinity)
-                directionX = data.direction.x;
-        }            
+            if (mynetwork == managerAll.host.Value.Value)
+                mynetwork.AssignInputAuthority(managerAll.host.Value.Key);
+            else
+                mynetwork.AssignInputAuthority(managerAll.client.Value.Key);
+        }
+                     
 
         if (state != (int)RaquetaStates.Idle) {
+
+            if (GetInput(out NetworkInputData data1) &&
+                data1.direction.x != float.NegativeInfinity &&
+                data1.direction.x != float.PositiveInfinity)
+                directionX = data1.direction.x;
+
             Vector3 pos = bolaNetwork.ReadPosition();
             Vector3 raquetaPos = _cc.ReadPosition();
 
@@ -81,13 +93,12 @@ public class RaquetaController : NetworkBehaviour
             if (state == (int)RaquetaStates.Active && intersection)
             {
                 if (NearestX == CircleX)
-                    bolaController.directionY = -bolaController.directionY;
+                    bolaController.ChangeDirectionY();
                 else if (NearestY == CircleY)
-                    bolaController.directionX = -bolaController.directionX;
-                else
-                {
-                    bolaController.directionX = -bolaController.directionX;
-                    bolaController.directionY = -bolaController.directionY;
+                    bolaController.ChangeDirectionX();
+                else {
+                    bolaController.ChangeDirectionX();
+                    bolaController.ChangeDirectionY();
                 }
 
                 state = (int)RaquetaStates.InActive;
