@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3598950673194742453
+--- !u!1 &2341756396732788899
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,28 +8,27 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3598950673194742454}
-  - component: {fileID: 3598950673194742448}
-  - component: {fileID: 3598950673194742455}
-  - component: {fileID: 3598950673194742449}
-  - component: {fileID: 3598950673194742450}
-  - component: {fileID: 3598950673194742444}
-  - component: {fileID: 3598950673194742451}
-  - component: {fileID: 1666160857991504267}
+  - component: {fileID: 2341756396732788803}
+  - component: {fileID: 2341756396732788811}
+  - component: {fileID: 2341756396732789150}
+  - component: {fileID: 2341756396732789149}
+  - component: {fileID: 2341756396732788825}
+  - component: {fileID: 2341756396732789151}
+  - component: {fileID: 2341756396732788815}
   m_Layer: 5
-  m_Name: Score
-  m_TagString: Untagged
+  m_Name: TextWin
+  m_TagString: textmsg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &3598950673194742454
+--- !u!224 &2341756396732788803
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,30 +40,30 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 2}
+  m_SizeDelta: {x: 27, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3598950673194742448
+--- !u!222 &2341756396732788811
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_CullTransparentMesh: 1
---- !u!114 &3598950673194742455
+--- !u!114 &2341756396732789150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.7529412, g: 0.79607844, b: 0.8627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,42 +76,21 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
-    m_Alignment: 3
+    m_MaxSize: 64
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<color=#feae34>Score: 0</color>'
---- !u!223 &3598950673194742449
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &3598950673194742450
+  m_Text: Han ganado la partida
+--- !u!114 &2341756396732789149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
@@ -125,19 +103,18 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: 5105b9e061d94f649abdabf66bc429d6
+    RawGuidValue: 645164de41007844c8208d5ee7f1e2d8
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 3598950673194742451}
-  - {fileID: 1666160857991504267}
+  - {fileID: 2341756396732789151}
   SimulationBehaviours: []
---- !u!143 &3598950673194742444
+--- !u!143 &2341756396732788825
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -149,13 +126,13 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3598950673194742451
+--- !u!114 &2341756396732789151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 378411a89480da345945c2f888327a2d, type: 3}
@@ -185,16 +162,24 @@ MonoBehaviour:
   rotationSpeed: 0
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
---- !u!114 &1666160857991504267
-MonoBehaviour:
+--- !u!223 &2341756396732788815
+Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3598950673194742453}
+  m_GameObject: {fileID: 2341756396732788899}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c715db79c3efaa0459fdc6749762fd8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0

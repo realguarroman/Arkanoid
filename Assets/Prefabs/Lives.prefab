@@ -198,3 +198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  _panelPrefab:
+    RawGuidValue: 50a9fe06832efce47849df53c0cd98fe
+  _gameoverPrefab:
+    RawGuidValue: 19a0b08b61eb81148b76627ca7dca111
+  _gamePrefab:
+    RawGuidValue: 70d207392d8a5844fa1cb863ce2febf8
+  _lives: 0

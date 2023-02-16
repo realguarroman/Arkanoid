@@ -4,13 +4,14 @@ using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _raquetaPrefab;
     [SerializeField] private NetworkPrefabRef _bolaPrefab;
     [SerializeField] private NetworkPrefabRef _panelPrefab;
-    [SerializeField] private NetworkPrefabRef _scorePrefab;
+    [SerializeField] private NetworkPrefabRef _initialPrefab;
     [SerializeField] private NetworkPrefabRef _livesPrefab;
     [SerializeField] private List<NetworkPrefabRef> _ladrillosPrefab;
 
@@ -24,6 +25,7 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
 
     async void StartGame(GameMode mode)
     {
+        GameObject.Find("Player").GetComponent<Text>().text = $"<color=#feae34>{mode.ToString()}</color>";
         //    // Create the Fusion runner and let it know that we will be providing user input
         _runner = gameObject.AddComponent<NetworkRunner>(); _runner.ProvideInput = true;
         //    // Start or join (depends on gamemode) a session with a specific name
@@ -41,8 +43,8 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
     private void OnGUI()
     {
         if (_runner == null) {
-            if (GUI.Button(new Rect(350, 200, 190, 50), "Host")) StartGame(GameMode.Host);
-            if (GUI.Button(new Rect(350, 260, 190, 50), "Join")) StartGame(GameMode.Client);
+            if (GUI.Button(new Rect(300, 250, 200, 50), "Host")) StartGame(GameMode.Host);
+            if (GUI.Button(new Rect(300, 320, 200, 50), "Join")) StartGame(GameMode.Client);
         }
     }
 
@@ -50,8 +52,11 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer) {
             if (host == null) {
-                runner.Spawn(_scorePrefab,
-                    new Vector3(-4, 31, -1.5f));
+                runner.Spawn(_panelPrefab,
+                    new Vector3(0, 15, -3.0f), null, player);
+
+                runner.Spawn(_initialPrefab,
+                    new Vector3(0, 15, -3.5f), null, player);
 
                 runner.Spawn(_livesPrefab,
                      new Vector3(4, 31, -1.5f));

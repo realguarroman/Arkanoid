@@ -36,8 +36,8 @@ public class RaquetaController : NetworkBehaviour
         var fieldScale = fieldTransf.localScale.x / 2;
         var fieldPosition = fieldTransf.position.x;
 
-        LWall = fieldPosition - fieldScale + raquetaScale;
-        RWall = fieldPosition + fieldScale - raquetaScale;
+        LWall = fieldPosition - fieldScale + raquetaScale + 1.2f;
+        RWall = fieldPosition + fieldScale - raquetaScale - 1.2f;
     }
 
     public Vector3 SetIdle() {
@@ -109,7 +109,7 @@ public class RaquetaController : NetworkBehaviour
             }
 
             var currentPos = raquetaPos.x;
-            if (currentPos > RWall || currentPos < LWall) directionX *= -1;
+            if (currentPos + 1 > RWall || currentPos - 1 < LWall) directionX *= -1;
 
             _cc.TeleportToPosition(raquetaPos + (10 *
                 new Vector3(directionX, 0, 0) * Runner.DeltaTime));

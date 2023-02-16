@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -422438977755253373}
   m_Layer: 0
   m_Name: Bola
-  m_TagString: Bola
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,3 +181,4 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _directionX: 1
   _directionY: 1
+  _state: 0

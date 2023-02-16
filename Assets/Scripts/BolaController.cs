@@ -36,10 +36,10 @@ public class BolaController : NetworkBehaviour
         var fieldPositionX = fieldTransf.position.x;
         var fieldPositionY = fieldTransf.position.y;
 
-        LWall = fieldPositionX - fieldScaleX;
-        RWall = fieldPositionX + fieldScaleX;
-        BWall = fieldPositionY - fieldScaleY;
-        TWall = fieldPositionY + fieldScaleY;
+        LWall = fieldPositionX - fieldScaleX + 1.2f;
+        RWall = fieldPositionX + fieldScaleX - 1.2f;
+        BWall = fieldPositionY - fieldScaleY + 3.5f;
+        TWall = fieldPositionY + fieldScaleY - 3.5f;
     }
 
     public void ChangeDirectionX() {
@@ -64,6 +64,12 @@ public class BolaController : NetworkBehaviour
             if (state == (int)BolaStates.Idle &&
                 data.direction.x == float.NegativeInfinity) {
                 state = (int)BolaStates.Active;
+                Runner.Despawn(GameObject.Find("Panel(Clone)")
+                    .GetComponent<NetworkObject>());
+                foreach (var elem in GameObject.FindGameObjectsWithTag("textmsg")) {
+                    Runner.Despawn(elem
+                    .GetComponent<NetworkObject>());
+                }
             }
         }
 

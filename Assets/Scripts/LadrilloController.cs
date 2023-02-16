@@ -4,13 +4,13 @@ public class LadrilloController : NetworkBehaviour
 {
     NetworkCharacterControllerPrototype bolaNetwork;
     BolaController bolaController;
-    ScoreController score;
+    [SerializeField] private NetworkPrefabRef _panelPrefab;
+    [SerializeField] private NetworkPrefabRef _winPrefab;
 
     private void Awake() {
         var bola = GameObject.Find("Bola(Clone)");
         bolaNetwork = bola.GetComponent<NetworkCharacterControllerPrototype>();
         bolaController = bola.GetComponent<BolaController>();
-        score = GameObject.Find("Score(Clone)").GetComponent<ScoreController>();
     }
 
     public override void FixedUpdateNetwork()
@@ -47,7 +47,11 @@ public class LadrilloController : NetworkBehaviour
                 bolaController.ChangeDirectionY();
             }
 
-            score.IncreaseScore();
+            if (GameObject.FindGameObjectsWithTag("ladrillo").Length == 0) {
+                Runner.Spawn(_panelPrefab, new Vector3(0, 15, -3.0f));
+                Runner.Spawn(_winPrefab, new Vector3(0, 15, -3.5f));
+            }
+
             Runner.Despawn(gameObject.GetComponent<NetworkObject>());
         }
     }

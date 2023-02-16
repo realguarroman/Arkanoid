@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4592667957833257515}
   m_Layer: 0
   m_Name: LadrilloLBlue
-  m_TagString: Untagged
+  m_TagString: ladrillo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,3 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  _panelPrefab:
+    RawGuidValue: 50a9fe06832efce47849df53c0cd98fe
+  _winPrefab:
+    RawGuidValue: 645164de41007844c8208d5ee7f1e2d8
