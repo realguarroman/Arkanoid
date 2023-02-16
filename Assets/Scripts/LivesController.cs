@@ -5,11 +5,18 @@ using UnityEngine.UI;
 public class LivesController : NetworkBehaviour
 {
     Text textcomp;
-    int lives = 5;
+
+    [Networked]
+    public int lives { get; set; }
 
     private void Awake(){
         textcomp = GetComponent<Text>();
     }
+
+    public override void Spawned() {
+        lives = 5;
+    }
+
     public void ReduceLives() {
         if (lives > 0) {
             lives--;

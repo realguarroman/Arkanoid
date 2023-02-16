@@ -41,8 +41,8 @@ public class ComManager : MonoBehaviour, INetworkRunnerCallbacks
     private void OnGUI()
     {
         if (_runner == null) {
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Host")) StartGame(GameMode.Host);
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Join")) StartGame(GameMode.Client);
+            if (GUI.Button(new Rect(350, 200, 190, 50), "Host")) StartGame(GameMode.Host);
+            if (GUI.Button(new Rect(350, 260, 190, 50), "Join")) StartGame(GameMode.Client);
         }
     }
 
